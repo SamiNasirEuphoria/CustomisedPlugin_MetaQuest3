@@ -17,7 +17,11 @@ public class VideoPlayerManager : MonoBehaviour
         ResetScene();
         videoPlayer = SceneManager.Instance.myMediaPlayer;
         mainVideoPlayer.Player = videoPlayer;
-        videoPlayer.OpenMedia(new MediaPath(videoName + ".mp4", MediaPathType.RelativeToStreamingAssetsFolder), autoPlay: true);
+        //videoPlayer.OpenMedia(new MediaPath(videoName + ".mp4", MediaPathType.RelativeToStreamingAssetsFolder), autoPlay: true);
+
+        //this line of code is used to load videos from local storage of meta
+        videoPlayer.OpenMedia(new MediaPath("/sdcard/Movies/" + videoName + ".mp4", MediaPathType.AbsolutePathOrURL), autoPlay: true);
+
     }
     public void InstantiateHotspotObjects()
     {
