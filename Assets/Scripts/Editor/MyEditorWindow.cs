@@ -261,6 +261,7 @@ public class MyEditorWindow : EditorWindow
             myButton.buttonImage.sprite = sprite;
 
             VideoPlayerManager videoObjectData = videoObject.GetComponent<VideoPlayerManager>();
+           
             myButton.myLabelText.text = sceneDataList[i].tagline;
             myButton.myDescriptionText.text = sceneDataList[i].description;
             // now project shifted from passing data into buttons to gameobjects video
@@ -292,7 +293,7 @@ public class MyEditorWindow : EditorWindow
 
                 if (sceneDataList[i].hotspots[k].hotspotName.Length > 10)
                 {
-                    videoObjectData.hotspotLabel = sceneDataList[i].hotspots[k].hotspotName.Substring(0, 10);
+                    videoObjectData.hotspotLabel = sceneDataList[i].hotspots[k].hotspotName.Substring(0, 15);
                 }
                 else
                 {

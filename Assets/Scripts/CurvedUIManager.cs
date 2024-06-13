@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using BNG;
+//using BNG;
 
 public class CurvedUIManager : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class CurvedUIManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         canves.GetComponent<GraphicRaycaster>().enabled = true;
         canves.GetComponent<MeshCollider>().enabled = false;
-        eventSystemObject.GetComponent<VRUISystem>().enabled = true;
-        eventSystemObject.GetComponent<CurvedUIInputModule>().enabled = false;
+        //eventSystemObject.GetComponent<VRUISystem>().enabled = true;
+        //eventSystemObject.GetComponent<CurvedUIInputModule>().enabled = false;
     }
 }

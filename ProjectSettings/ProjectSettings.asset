@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: EuphoriaXR
-  productName: PluginMetaQuest
+  productName: MetaQuestVR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -135,7 +135,10 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 11400000, guid: 65b5bc4dbdf29804aab5baf716805e64, type: 2}
+  - {fileID: -1103679558296061887, guid: 364db49bd62110d47a4a9bb7a45187ce, type: 2}
+  - {fileID: 2905214561555366355, guid: a54a8eab87bba6049a2eae00a02338af, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -155,7 +158,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.euphoriaxr.pluginmetaquest
+    Android: com.euphoriaxr.metaquestvr
     Standalone: com.SwanseaUniversity.Meta-Quest-Template
   buildNumber:
     Bratwurst: 0
