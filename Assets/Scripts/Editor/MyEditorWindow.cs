@@ -26,6 +26,7 @@ public class HotspotData
     public Texture2D imageAsset;
     public VideoClip videoAsset;
     public string textAsset;
+    public GameObject assetModel;
 }
 
 // Enum for hotspot types
@@ -34,7 +35,8 @@ public enum HotspotType
     Image,
     Video,
     //Video360,
-    Text
+    Text,
+    GameObject
 }
 public class MyEditorWindow : EditorWindow
 {
@@ -99,7 +101,7 @@ public class MyEditorWindow : EditorWindow
 
 
         homeImage = (Texture2D)EditorGUILayout.ObjectField("Background 360 Image", homeImage, typeof(Texture2D), false);
-
+        //asset = 
         GUILayout.Space(20);
         GUILayout.Label("(Add scenes upto max no. 10)", EditorStyles.boldLabel);
         numberOfScenes = EditorGUILayout.IntField("Number of Scenes:", numberOfScenes);
@@ -161,6 +163,9 @@ public class MyEditorWindow : EditorWindow
                     //    break;
                     case HotspotType.Text:
                         hotspotData.textAsset = EditorGUILayout.TextField(hotspotData.textAsset);
+                        break;
+                    case HotspotType.GameObject:
+                        hotspotData.assetModel = (GameObject)EditorGUILayout.ObjectField(hotspotData.assetModel, typeof(GameObject), false);
                         break;
                 }
 
@@ -309,6 +314,9 @@ public class MyEditorWindow : EditorWindow
                         break;
                     case HotspotType.Video:
                         obj.hotspotVideoName = sceneDataList[i].hotspots[k].videoAsset.name;
+                        break;
+                    case HotspotType.GameObject:
+                        obj.assetModel = sceneDataList[i].hotspots[k].assetModel;
                         break;
                 }
                 videoObjectData.InstantiateHotspotObjects();
