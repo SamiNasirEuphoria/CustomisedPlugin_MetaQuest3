@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using RenderHeads.Media.AVProVideo;
 
@@ -50,6 +49,5 @@ public class VideoPlayerManager : MonoBehaviour
         {
             g.SetActive(false);
         }
-    }
-    
+    } 
 }

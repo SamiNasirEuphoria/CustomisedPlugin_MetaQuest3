@@ -59,7 +59,7 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         hotspotImage.SetActive(false);
         videoPlayerObject.SetActive(false);
         textObject.SetActive(false);
-        modelReference.SetActive(false);
+        positionReference.SetActive(false);
     }
     public void BackFromHotspot()
     {
@@ -96,7 +96,7 @@ public class HotspotVideoPlayerManager : MonoBehaviour
                 break;
             case "GameObject":
                 Debug.Log("You did it");
-                modelReference.SetActive(true);
+                positionReference.SetActive(true);
                 GameObject sample = Instantiate(assetModel);
                 sample.transform.position = modelReference.transform.position;
                 //GameObject sample = Instantiate(assetModel);
