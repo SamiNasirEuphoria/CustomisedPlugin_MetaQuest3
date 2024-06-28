@@ -188,17 +188,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 300
-    m_Right: -1650
+    m_Left: 215
+    m_Right: 0
     m_Top: 0
-    m_Bottom: 850
+    m_Bottom: 450
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 960, y: 765}
-  m_Spacing: {x: 200, y: 200}
+  m_Spacing: {x: 100, y: 200}
   m_Constraint: 1
-  m_ConstraintCount: 3
+  m_ConstraintCount: 4
 --- !u!1 &480260721
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +240,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3840, y: 2160}
+  m_SizeDelta: {x: 4560.0747, y: 2565.042}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &480260724
 MonoBehaviour:
@@ -469,7 +469,7 @@ MonoBehaviour:
   DoNotTesselate: 0
   savedPos: {x: 0, y: 0, z: 0}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 3840, y: 2160}
+  savedRectSize: {x: 4560.0747, y: 2565.042}
   savedColor: {r: 1, g: 1, b: 1, a: 0}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -796,7 +796,7 @@ MonoBehaviour:
   DoNotTesselate: 0
   savedPos: {x: 0, y: 0, z: 0}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 3840, y: 2160}
+  savedRectSize: {x: 4560.0747, y: 2565.042}
   savedColor: {r: 1, g: 1, b: 1, a: 1}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -905,9 +905,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoNotTesselate: 0
-  savedPos: {x: -1920, y: 1080, z: 0}
+  savedPos: {x: -2280.0374, y: 1282.521, z: 0}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 3840, y: 2160}
+  savedRectSize: {x: 4560.0747, y: 2565.042}
   savedColor: {r: 1, g: 1, b: 1, a: 1}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -1483,7 +1483,7 @@ MonoBehaviour:
   DoNotTesselate: 0
   savedPos: {x: 0, y: 0, z: 0}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 3840, y: 2160}
+  savedRectSize: {x: 4560.0747, y: 2565.042}
   savedColor: {r: 1, g: 1, b: 1, a: 0.7254902}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1

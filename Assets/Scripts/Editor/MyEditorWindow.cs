@@ -103,10 +103,10 @@ public class MyEditorWindow : EditorWindow
         homeImage = (Texture2D)EditorGUILayout.ObjectField("Background 360 Image", homeImage, typeof(Texture2D), false);
         //asset = 
         GUILayout.Space(20);
-        GUILayout.Label("(Add scenes upto max no. 10)", EditorStyles.boldLabel);
+        GUILayout.Label("(Add scenes upto max no. 8)", EditorStyles.boldLabel);
         numberOfScenes = EditorGUILayout.IntField("Number of Scenes:", numberOfScenes);
 
-        numberOfScenes = Mathf.Clamp(numberOfScenes,0,10);
+        numberOfScenes = Mathf.Clamp(numberOfScenes,0,8);
         if (numberOfScenes < 0)
         {
             numberOfScenes = 0;

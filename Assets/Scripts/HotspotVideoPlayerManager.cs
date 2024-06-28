@@ -54,6 +54,14 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         myCanvesVideo.CurrentMediaPlayer = hotspotMediaPlayer;
         OpenHotspotPanel();
     }
+    private void OnEnable()
+    {
+        if (hotspotType == "Video")
+        {
+            hotspotMediaPlayer.Rewind(true);
+            hotspotMediaPlayer.Play();
+        }
+    }
     public void StartSceneConfigurations()
     {
         hotspotImage.SetActive(false);
@@ -73,6 +81,19 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         SceneManager.Instance.hotspotMediaPlayer.Stop();
         this.gameObject.SetActive(false);
         SceneManager.Instance.myMediaPlayer.Play();
+    }
+    public void Play()
+    {
+        hotspotMediaPlayer.Play();
+    }
+    public void Pause()
+    {
+        hotspotMediaPlayer.Pause();
+    }
+    public void Rewind()
+    {
+        hotspotMediaPlayer.Rewind(true);
+        hotspotMediaPlayer.Play();
     }
     public void OpenHotspotPanel()
     {
@@ -216,7 +237,7 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         targetObject.transform.SetParent(parent.transform);
 
         // Adjust the position of the original object to align the center with the pivot point
-        targetObject.transform.localPosition = -offset;
+        targetObject.transform.localPosition = new Vector3(-offset.x, -offset.y, offset.z);
 
         return parent;
     }

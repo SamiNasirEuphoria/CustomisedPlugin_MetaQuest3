@@ -29,6 +29,6 @@ public class Rotation : MonoBehaviour
         }
 
         // Apply rotation using Time.fixedDeltaTime for FixedUpdate
-        transform.Rotate(axis * speed * Time.fixedDeltaTime);
+        transform.Rotate(axis * speed * Time.fixedDeltaTime, Space.Self);
     }
 }
