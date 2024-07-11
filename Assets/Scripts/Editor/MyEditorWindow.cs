@@ -37,7 +37,6 @@ public enum HotspotType
 {
     Picture,
     Video,
-    //Video360,
     Text,
     _3DModel,
 }
@@ -46,8 +45,11 @@ public class MyEditorWindow : EditorWindow
     private string projectName = "";
     private string companyName = "";
     private string packageName = "";
+    private string videoName = "";
+    private string errorMessage;
     private Texture2D icon;
     private Texture2D homeImage;
+    private AudioClip bgMusic;
     private Texture2D duplicatedTexture;
     private Cubemap cubemap;
     private int numberOfScenes = 0;
@@ -66,6 +68,7 @@ public class MyEditorWindow : EditorWindow
     {
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
+       
 
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Company Name", GUILayout.Width(EditorGUIUtility.labelWidth));
@@ -93,16 +96,37 @@ public class MyEditorWindow : EditorWindow
             packageName = "com." + companyName.Replace(" ", "").ToLower() + "." + projectName.Replace(" ", "").ToLower();
         }
 
-
         EditorGUI.BeginDisabledGroup(true);
         EditorGUILayout.TextField(packageName);
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndHorizontal();
         icon = (Texture2D)EditorGUILayout.ObjectField("Icon", icon, typeof(Texture2D), false);
-        homeImage = (Texture2D)EditorGUILayout.ObjectField("Background 360 Image", homeImage, typeof(Texture2D), false);
-        //asset = 
-        GUILayout.Space(20);
-        GUILayout.Label("(Add scenes upto max no. 8)", EditorStyles.boldLabel);
+
+        GUILayout.Space(5);
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Home Screen Settings", EditorStyles.boldLabel);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        //EditorGUILayout.EndVertical();
+        GUILayout.Space(5);
+        homeImage = (Texture2D)EditorGUILayout.ObjectField("360 Image", homeImage, typeof(Texture2D), false);
+        //asset =
+        bgMusic = (AudioClip)EditorGUILayout.ObjectField("Background Music", bgMusic, typeof(AudioClip), false);
+        GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
+        EditorGUILayout.EndVertical();
+        GUILayout.Space(5);
+       
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.Label("Scene Settings", EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
+       
+        
         numberOfScenes = EditorGUILayout.IntField("Number of Scenes:", numberOfScenes);
 
         numberOfScenes = Mathf.Clamp(numberOfScenes,0,8);
@@ -116,6 +140,9 @@ public class MyEditorWindow : EditorWindow
         {
             ResizeSceneDataList();
         }
+        GUILayout.Label("[Maximum number of Scenes allowed is 8]", EditorStyles.boldLabel);
+
+
 
         // Display scene data fields
         for (int i = 0; i < numberOfScenes; i++)
@@ -123,53 +150,121 @@ public class MyEditorWindow : EditorWindow
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Label("Scene " + (i + 1), EditorStyles.boldLabel);
 
+            //to place video file name automatically
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("360 Video File Name", GUILayout.Width(EditorGUIUtility.labelWidth));
+
+            if (string.IsNullOrEmpty(projectName))
+            {
+                videoName = "Wyoming_Scene" + (i+1)+".mp4";
+            }
+            else
+            {
+                videoName = projectName.Replace(" ", "")+ "_Scene" +(i+1)+".mp4";
+            }
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.TextField(videoName);
+            EditorGUI.EndDisabledGroup();
+            EditorGUILayout.EndHorizontal();
+
+
             SceneData sceneData = sceneDataList[i];
-            GUILayout.Label("[Max lenght is upto 25 characters]",EditorStyles.boldLabel );
+           
             sceneData.tagline = EditorGUILayout.TextField("Video Label:", sceneData.tagline);
-            GUILayout.Label("[Max lenght is upto 40 characters]", EditorStyles.boldLabel);
+            GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel); 
             sceneData.description = EditorGUILayout.TextField("Video Description:", sceneData.description);
-            
+            GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
             GUILayout.Space(5);
             sceneData.video = (VideoClip)EditorGUILayout.ObjectField("360 Video:", sceneData.video, typeof(VideoClip), false);
-            sceneData.thumbnail = (Texture2D)EditorGUILayout.ObjectField("Video Thumbnail:", sceneData.thumbnail, typeof(Texture2D), false);
-            GUILayout.Space(5);
-            sceneData.lastFrame360Image = (Texture2D)EditorGUILayout.ObjectField("Last frame 360 Image", sceneData.lastFrame360Image, typeof(Texture2D), false);
+            //through errors on invalid videos
+            if (sceneData.video != null)
+            { 
+                string path = AssetDatabase.GetAssetPath(sceneData.video);
+                if (!path.EndsWith(".mp4", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    errorMessage = "Error: Only .mp4 360 videos are supported.";
+                    EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                }
+            }
+           
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Thumbnail Image:");
+            EditorGUILayout.Space();
+          
+            sceneData.thumbnail = (Texture2D)EditorGUILayout.ObjectField("", sceneData.thumbnail, typeof(Texture2D), false);
+           
+            GUILayout.EndHorizontal();
+            EditorGUILayout.LabelField("[Thumbnail Image must be 16:9 ratio]", EditorStyles.boldLabel);
+            GUILayout.EndVertical();    
+            //sceneData.thumbnail = (Texture2D)EditorGUILayout.ObjectField("Thumbnail Image:\n[Thumbnail Image must be 16:9 ratio] \n", sceneData.thumbnail, typeof(Texture2D), false);
+            //GUILayout.Label("[Thumbnail Image must be 16:9 ratio]", EditorStyles.boldLabel);
             //store the video names here
             //string name = sceneData.video.name;
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            GUILayout.Label("Hotspots", EditorStyles.boldLabel);
-            GUILayout.Label("[Max lenght is upto 10 characters]", EditorStyles.boldLabel);
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.Label("Hotspot Settings ", EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(5);
+
+            if (sceneData.hotspots.Count >0)
+            {
+                GUILayout.Space(5);
+                sceneData.lastFrame360Image = (Texture2D)EditorGUILayout.ObjectField("Last frame 360 Image", sceneData.lastFrame360Image, typeof(Texture2D), false);
+
+            }
+
+            //GUILayout.Label("Hotspot Settings ", EditorStyles.boldLabel);
+            GUILayout.Label("[Maximum number of hotspots allowed is 10]", EditorStyles.boldLabel);
             for (int j = 0; j < sceneData.hotspots.Count; j++)
             {
                 HotspotData hotspotData = sceneData.hotspots[j];
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                
+               
                 hotspotData.hotspotName = EditorGUILayout.TextField("Hotspot Label:", hotspotData.hotspotName);
+                GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Space(20);
                 GUILayout.Label("Type:", GUILayout.Width(60));
                 hotspotData.type = (HotspotType)EditorGUILayout.EnumPopup(hotspotData.type, GUILayout.Width(80));
                 
-                GUILayout.Label("Asset:", GUILayout.Width(50));
+                //GUILayout.Label("Asset:", GUILayout.Width(50));
                 switch (hotspotData.type)
                 {
                     case HotspotType.Picture:
-                        hotspotData.imageAsset = (Texture2D)EditorGUILayout.ObjectField(hotspotData.imageAsset, typeof(Texture2D), false);
-                        EditorGUILayout.EndVertical();
-
+                        GUILayout.Label("Asset:", GUILayout.Width(50));
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
-                        GUILayout.Label("[Max characters upto 80]", EditorStyles.boldLabel);
+                        hotspotData.imageAsset = (Texture2D)EditorGUILayout.ObjectField(hotspotData.imageAsset, typeof(Texture2D), false);
+                        EditorGUILayout.EndVertical();
+                        GUILayout.Label("[Picture must be 16:9 ratio]", EditorStyles.boldLabel);
+
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
-
+                        //EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        //EditorGUILayout.BeginHorizontal();
+                        //GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
+                        //EditorGUILayout.EndHorizontal();
+                        //EditorGUILayout.EndVertical();
+                      
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
                         
-                        GUILayout.Label("Image description:", GUILayout.Width(110));
+                        GUILayout.Label("Picture description:", GUILayout.Width(110));
+
+                        
+                       // EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                       
+                       // EditorGUILayout.EndVertical();
                         //hotspotData.imageText = EditorGUILayout.TextArea(hotspotData.imageText, GUILayout.Height(30)); // Adjust the height as needed
                         hotspotData.imageText = EditorGUILayout.TextField(hotspotData.imageText, GUILayout.Height(20));
+                       
                         //new line added for testing
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
@@ -177,45 +272,73 @@ public class MyEditorWindow : EditorWindow
                         }
                         
                         EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.EndVertical();
 
+                        EditorGUILayout.BeginVertical();
+                        GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
+                        EditorGUILayout.EndVertical();
+                        EditorGUILayout.EndVertical();
+                       
                         break;
                     case HotspotType.Video:
+                        GUILayout.Label("Asset:", GUILayout.Width(50));
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
                         hotspotData.videoAsset = (VideoClip)EditorGUILayout.ObjectField(hotspotData.videoAsset, typeof(VideoClip), false);
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
+
+                       
                         //EditorGUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
+                        GUILayout.Label("[Video must be 16:9 ratio]", EditorStyles.boldLabel);
+                        if (hotspotData.videoAsset != null)
+                        {
+                            string path = AssetDatabase.GetAssetPath(hotspotData.videoAsset);
+                            if (!path.EndsWith(".mp4", System.StringComparison.OrdinalIgnoreCase))
+                            {
+                                errorMessage = "Error: Only .mp4 videos are supported.";
+                                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                            }
+                        }
+
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
                         break;
-                    //case HotspotType.Video360:
-                    //    hotspotData.videoAsset = (VideoClip)EditorGUILayout.ObjectField(hotspotData.videoAsset, typeof(VideoClip), false);
-                    //    break;
                     case HotspotType.Text:
+                        //GUILayout.Label("Asset:", GUILayout.Width(50));
+                        EditorGUILayout.EndVertical();
+                       
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label("Text:", GUILayout.Width(50));
                         hotspotData.textAsset = EditorGUILayout.TextField(hotspotData.textAsset);
-                        
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
+                       
                         
-                        EditorGUILayout.EndVertical();
-                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                        EditorGUILayout.BeginHorizontal();
-                        GUILayout.Label("[Max characters upto 90]", EditorStyles.boldLabel);
+                        
+                       
                         EditorGUILayout.EndHorizontal();
+                        GUILayout.Label("[Max characters upto 800]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
+
+
+                       
                         break;
                     case HotspotType._3DModel:
+                        GUILayout.Label("Asset:", GUILayout.Width(50));
                         hotspotData.assetModel = (GameObject)EditorGUILayout.ObjectField(hotspotData.assetModel, typeof(GameObject), false);
                         EditorGUILayout.EndVertical();
 
-                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                        EditorGUILayout.BeginHorizontal();
-                        GUILayout.Label("[Max characters upto 80]", EditorStyles.boldLabel);
-                        EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.EndVertical();
+                        //EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        //EditorGUILayout.BeginHorizontal();
+                        //GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
+                        //EditorGUILayout.EndHorizontal();
+                        //EditorGUILayout.EndVertical();
 
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
@@ -227,7 +350,16 @@ public class MyEditorWindow : EditorWindow
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
+                      
+
                         EditorGUILayout.EndHorizontal();
+
+
+                        EditorGUILayout.BeginVertical();
+                      
+                        GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
+                       
+                        EditorGUILayout.EndVertical();
                         EditorGUILayout.EndVertical();
                         
                         break;
@@ -251,7 +383,8 @@ public class MyEditorWindow : EditorWindow
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndVertical();
         }
-
+       
+        EditorGUILayout.EndVertical();
         if (GUILayout.Button("Apply"))
         {
             //ApplyTexture(textureApplier);
