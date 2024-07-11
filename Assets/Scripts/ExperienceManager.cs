@@ -9,7 +9,7 @@ public class ExperienceManager : MonoBehaviour
     public ApplyToMesh meshMedia;
     public MediaPlayer videoPlayer;
     public Animator fadeScreenAnimator;
-    public UnityEngine.UI.Button exit, play,pause, rewind;
+    public UnityEngine.UI.Button exit,continueButton, play,pause, rewind;
     public UnityEngine.UI.Slider videoSlider;
     public UnityEvent buttonResetState;
     private bool check;
@@ -23,6 +23,7 @@ public class ExperienceManager : MonoBehaviour
         pause.onClick.AddListener(Pause);
         rewind.onClick.AddListener(Rewind);
         exit.onClick.AddListener(Exit);
+        continueButton.onClick.AddListener(Exit);
         StartCoroutine(Wait());
     }
     public void ButtonsState(bool check)

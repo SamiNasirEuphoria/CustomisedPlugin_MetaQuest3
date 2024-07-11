@@ -7,10 +7,11 @@ public class VideoSliderManager : MonoBehaviour
 {
 	public MediaPlayer _mediaPlayer;
 	public Slider _sliderTime;
-	private bool _isHoveringOverTimeline, _wasPlayingBeforeTimelineDrag, check;
+	private bool _isHoveringOverTimeline, _wasPlayingBeforeTimelineDrag, check, _check;
 	private TimeRange timelineRange;
 	public ExperienceManager manager;
 	public ToggleButton toggleButton;
+	public VideoPlayerManager videoPlayerManager;
 	private void Start()
     {
 		CreateTimelineDragEvents();
@@ -19,6 +20,7 @@ public class VideoSliderManager : MonoBehaviour
     private void OnEnable()
     {
 		check = true;
+		_check = true;
     }
     public void Offslider()
     {
@@ -46,7 +48,10 @@ public class VideoSliderManager : MonoBehaviour
         {
             if (check)
             {
-				manager.Exit();
+				//here we will call the buttons to appear on the screen instead of go back
+				//hide the multimedia panel and show continue button next 
+				//manager.Exit();
+				videoPlayerManager.SetActive();
 				check = false;
 			}
         }

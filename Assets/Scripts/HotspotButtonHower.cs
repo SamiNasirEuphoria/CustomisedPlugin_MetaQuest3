@@ -12,6 +12,14 @@ public class HotspotButtonHower : MonoBehaviour, IPointerEnterHandler, IPointerE
     private Coroutine fillCoroutine;
     public HotspotButton button;
 
+    public void Testing()
+    {
+        if (fillCoroutine == null)
+        {
+            fillCoroutine = StartCoroutine(FillImageCoroutine());
+        }
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (fillCoroutine == null)

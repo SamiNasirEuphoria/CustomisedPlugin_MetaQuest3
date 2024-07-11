@@ -36,9 +36,11 @@ public class HotspotVideoPlayerManager : MonoBehaviour
     [Space(2)]
     [Header("[Reference Container to hold data]")]
     public Image myImage;
+    public TMP_Text imageDescription;
     public DisplayUGUI myCanvesVideo;
     public MediaPlayer hotspotMediaPlayer;
     public TMP_Text myText;
+    public TMP_Text modelDescription;
 
     [Space(5)]
     [Header("Video Player Object Management Assets")]
@@ -46,13 +48,18 @@ public class HotspotVideoPlayerManager : MonoBehaviour
     //public GameObject hotspotOBJ;
     public Button backFromHotspot; //hotspotButton, backtoMainButton,
 
-    private void Start()
+    private void Awake()
     {
+        Debug.Log("This method get called or not");
         StartSceneConfigurations();
         backFromHotspot.onClick.AddListener(BackFromHotspot);
         hotspotMediaPlayer = SceneManager.Instance.hotspotMediaPlayer;
         myCanvesVideo.CurrentMediaPlayer = hotspotMediaPlayer;
         OpenHotspotPanel();
+    }
+    private void Start()
+    {
+       
     }
     private void OnEnable()
     {
@@ -80,7 +87,8 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         mainOBJ.SetActive(true);
         SceneManager.Instance.hotspotMediaPlayer.Stop();
         this.gameObject.SetActive(false);
-        SceneManager.Instance.myMediaPlayer.Play();
+        //try avoiding replaying media to the main screen
+        //SceneManager.Instance.myMediaPlayer.Play();
     }
     public void Play()
     {
@@ -100,7 +108,7 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         this.gameObject.SetActive(true);
         switch (hotspotType)
         {
-            case "Image":
+            case "Picture":
                 hotspotImage.SetActive(true);
                 Sprite sprite = Sprite.Create(hotspotSprite, new Rect(0, 0, hotspotSprite.width, hotspotSprite.height), Vector2.one * 0.5f);
                 myImage.sprite = sprite;
@@ -115,7 +123,7 @@ public class HotspotVideoPlayerManager : MonoBehaviour
                 textObject.SetActive(true);
                 myText.text = hotspotText;
                 break;
-            case "GameObject":
+            case "_3DModel":
                 Debug.Log("You did it");
                 positionReference.SetActive(true);
                 GameObject sample = Instantiate(assetModel);

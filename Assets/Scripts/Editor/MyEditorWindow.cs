@@ -16,6 +16,7 @@ public class SceneData
     public VideoClip video;
     public List<HotspotData> hotspots = new List<HotspotData>();
     public Texture2D thumbnail;
+    public Texture2D lastFrame360Image;
 }
 // HotspotData class to hold hotspot-related data
 [System.Serializable]
@@ -24,19 +25,21 @@ public class HotspotData
     public HotspotType type;
     public string hotspotName;
     public Texture2D imageAsset;
+    public string imageText;
     public VideoClip videoAsset;
     public string textAsset;
     public GameObject assetModel;
+    public string modelText;
 }
 
 // Enum for hotspot types
 public enum HotspotType
 {
-    Image,
+    Picture,
     Video,
     //Video360,
     Text,
-    GameObject
+    _3DModel,
 }
 public class MyEditorWindow : EditorWindow
 {
@@ -95,11 +98,7 @@ public class MyEditorWindow : EditorWindow
         EditorGUILayout.TextField(packageName);
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndHorizontal();
-
-        
         icon = (Texture2D)EditorGUILayout.ObjectField("Icon", icon, typeof(Texture2D), false);
-
-
         homeImage = (Texture2D)EditorGUILayout.ObjectField("Background 360 Image", homeImage, typeof(Texture2D), false);
         //asset = 
         GUILayout.Space(20);
@@ -129,9 +128,12 @@ public class MyEditorWindow : EditorWindow
             sceneData.tagline = EditorGUILayout.TextField("Video Label:", sceneData.tagline);
             GUILayout.Label("[Max lenght is upto 40 characters]", EditorStyles.boldLabel);
             sceneData.description = EditorGUILayout.TextField("Video Description:", sceneData.description);
+            
             GUILayout.Space(5);
             sceneData.video = (VideoClip)EditorGUILayout.ObjectField("360 Video:", sceneData.video, typeof(VideoClip), false);
             sceneData.thumbnail = (Texture2D)EditorGUILayout.ObjectField("Video Thumbnail:", sceneData.thumbnail, typeof(Texture2D), false);
+            GUILayout.Space(5);
+            sceneData.lastFrame360Image = (Texture2D)EditorGUILayout.ObjectField("Last frame 360 Image", sceneData.lastFrame360Image, typeof(Texture2D), false);
             //store the video names here
             //string name = sceneData.video.name;
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -152,43 +154,101 @@ public class MyEditorWindow : EditorWindow
                 GUILayout.Label("Asset:", GUILayout.Width(50));
                 switch (hotspotData.type)
                 {
-                    case HotspotType.Image:
+                    case HotspotType.Picture:
                         hotspotData.imageAsset = (Texture2D)EditorGUILayout.ObjectField(hotspotData.imageAsset, typeof(Texture2D), false);
+                        EditorGUILayout.EndVertical();
+
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label("[Max characters upto 80]", EditorStyles.boldLabel);
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
+
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
+                        
+                        GUILayout.Label("Image description:", GUILayout.Width(110));
+                        //hotspotData.imageText = EditorGUILayout.TextArea(hotspotData.imageText, GUILayout.Height(30)); // Adjust the height as needed
+                        hotspotData.imageText = EditorGUILayout.TextField(hotspotData.imageText, GUILayout.Height(20));
+                        //new line added for testing
+                        if (GUILayout.Button("-", GUILayout.Width(20)))
+                        {
+                            sceneData.hotspots.RemoveAt(j);
+                        }
+                        
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
+
                         break;
                     case HotspotType.Video:
                         hotspotData.videoAsset = (VideoClip)EditorGUILayout.ObjectField(hotspotData.videoAsset, typeof(VideoClip), false);
+                        if (GUILayout.Button("-", GUILayout.Width(20)))
+                        {
+                            sceneData.hotspots.RemoveAt(j);
+                        }
+                        //EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
                         break;
                     //case HotspotType.Video360:
                     //    hotspotData.videoAsset = (VideoClip)EditorGUILayout.ObjectField(hotspotData.videoAsset, typeof(VideoClip), false);
                     //    break;
                     case HotspotType.Text:
                         hotspotData.textAsset = EditorGUILayout.TextField(hotspotData.textAsset);
+                        
+                        if (GUILayout.Button("-", GUILayout.Width(20)))
+                        {
+                            sceneData.hotspots.RemoveAt(j);
+                        }
+                        
+                        EditorGUILayout.EndVertical();
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label("[Max characters upto 90]", EditorStyles.boldLabel);
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
                         break;
-                    case HotspotType.GameObject:
+                    case HotspotType._3DModel:
                         hotspotData.assetModel = (GameObject)EditorGUILayout.ObjectField(hotspotData.assetModel, typeof(GameObject), false);
+                        EditorGUILayout.EndVertical();
+
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label("[Max characters upto 80]", EditorStyles.boldLabel);
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
+
+                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label("Model description:", GUILayout.Width(110));
+                        hotspotData.modelText = EditorGUILayout.TextField(hotspotData.modelText, GUILayout.Height(20)); // Adjust the height as needed
+
+                        //new line added for testing
+                        if (GUILayout.Button("-", GUILayout.Width(20)))
+                        {
+                            sceneData.hotspots.RemoveAt(j);
+                        }
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.EndVertical();
+                        
                         break;
                 }
-
-                if (GUILayout.Button("-", GUILayout.Width(20)))
-                {
-                    sceneData.hotspots.RemoveAt(j);
-                }
+                // to deal with remove button for each scene seprately
+                //if (GUILayout.Button("-", GUILayout.Width(20)))
+                //{
+                //    sceneData.hotspots.RemoveAt(j);
+                //}
 
                 EditorGUILayout.EndHorizontal();
-                EditorGUILayout.EndVertical();
+                //EditorGUILayout.EndVertical();
             }
-
             if (GUILayout.Button("Add Hotspot"))
             {
                 if (sceneData.hotspots.Count < 10)
                 {
                     sceneData.hotspots.Add(new HotspotData());
                 }
-              
             }
-
             EditorGUILayout.EndVertical();
-
             EditorGUILayout.EndVertical();
         }
 
@@ -218,8 +278,6 @@ public class MyEditorWindow : EditorWindow
            }
        }
    }
-
-
     private string RemoveSpecialCharactersAndNumbers(string input)
     {
         // Define the pattern to match any character that is not a letter
@@ -271,8 +329,10 @@ public class MyEditorWindow : EditorWindow
             myButton.myDescriptionText.text = sceneDataList[i].description;
             // now project shifted from passing data into buttons to gameobjects video
             videoObjectData.videoName = sceneDataList[i].video.name;
+            Material hotspotMaterial = videoObjectData.hotspotSphere.GetComponent<MeshRenderer>().sharedMaterial;
 
-            HotspotVideoPlayerManager obj = videoObjectData.hotspotObjectPrefab.GetComponent<HotspotVideoPlayerManager>();
+            hotspotMaterial.mainTexture = sceneDataList[i].lastFrame360Image;
+             HotspotVideoPlayerManager obj = videoObjectData.hotspotObjectPrefab.GetComponent<HotspotVideoPlayerManager>();
             obj.videoName = sceneDataList[i].video.name;
             obj.sceneTagline = sceneDataList[i].tagline;
             if (obj.sceneTagline.Length > 10)
@@ -296,7 +356,7 @@ public class MyEditorWindow : EditorWindow
 
                 videoObjectData.hotspotLabel = sceneDataList[i].hotspots[k].hotspotName;
 
-                if (sceneDataList[i].hotspots[k].hotspotName.Length > 10)
+                if (sceneDataList[i].hotspots[k].hotspotName.Length > 15)
                 {
                     videoObjectData.hotspotLabel = sceneDataList[i].hotspots[k].hotspotName.Substring(0, 15);
                 }
@@ -309,14 +369,16 @@ public class MyEditorWindow : EditorWindow
                     case HotspotType.Text:
                         obj.hotspotText = sceneDataList[i].hotspots[k].textAsset;
                         break;
-                    case HotspotType.Image:
+                    case HotspotType.Picture:
                         obj.hotspotSprite = sceneDataList[i].hotspots[k].imageAsset;
+                        obj.imageDescription.text = sceneDataList[i].hotspots[k].imageText;
                         break;
                     case HotspotType.Video:
                         obj.hotspotVideoName = sceneDataList[i].hotspots[k].videoAsset.name;
                         break;
-                    case HotspotType.GameObject:
+                    case HotspotType._3DModel:
                         obj.assetModel = sceneDataList[i].hotspots[k].assetModel;
+                        obj.modelDescription.text = sceneDataList[i].hotspots[k].modelText;
                         break;
                 }
                 videoObjectData.InstantiateHotspotObjects();
@@ -336,8 +398,7 @@ public class MyEditorWindow : EditorWindow
                                 imageComponent.sprite = Sprite.Create(sceneData.thumbnail, new Rect(0, 0, sceneData.thumbnail.width, sceneData.thumbnail.height), new Vector2(0.5f, 0.5f));
                             }
                         }
-                    }
-                    
+                    } 
             }
             else
             {
@@ -371,7 +432,6 @@ public class MyEditorWindow : EditorWindow
                     objectsToDestroy.Add(child.gameObject);
                 }
             }
-
             // Destroy the objects outside of the loop
             foreach (var obj in objectsToDestroy)
             {
@@ -379,8 +439,6 @@ public class MyEditorWindow : EditorWindow
             }
         }
     }
-
-
     private void ApplySettings()
     {
         PlayerSettings.applicationIdentifier = packageName;
@@ -399,9 +457,10 @@ public class MyEditorWindow : EditorWindow
         GameObject homeObject = GameObject.Find("Home");
         Material material = homeObject.GetComponent<MeshRenderer>().sharedMaterial;
         //Material material = homeObject.GetComponent<MeshRenderer>().material;
-
         material.mainTexture = homeImage;
         // Spawn VideoButton prefabs
+        //texture material to hotspot image, 360 image in the background
+       
         SpawnVideoButtons();
         //add area to content size
         RectTransform myTransform = contentObject.GetComponent<RectTransform>();
