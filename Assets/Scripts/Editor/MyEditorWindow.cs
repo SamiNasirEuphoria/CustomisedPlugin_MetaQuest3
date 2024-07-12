@@ -608,6 +608,14 @@ public class MyEditorWindow : EditorWindow
         // Get the "Home" GameObject from the scene hierarchy
         GameObject homeObject = GameObject.Find("Home");
         Material material = homeObject.GetComponent<MeshRenderer>().sharedMaterial;
+        if (bgMusic != null)
+        {
+            homeObject.GetComponent<AudioSource>().clip = bgMusic;
+        }
+        else
+        {
+            homeObject.GetComponent<AudioSource>().clip = null;
+        }
         //Material material = homeObject.GetComponent<MeshRenderer>().material;
         material.mainTexture = homeImage;
         // Spawn VideoButton prefabs
