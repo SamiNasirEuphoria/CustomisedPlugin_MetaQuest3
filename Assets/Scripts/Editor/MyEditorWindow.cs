@@ -114,6 +114,21 @@ public class MyEditorWindow : EditorWindow
         homeImage = (Texture2D)EditorGUILayout.ObjectField("360 Image", homeImage, typeof(Texture2D), false);
         //asset =
         bgMusic = (AudioClip)EditorGUILayout.ObjectField("Background Music", bgMusic, typeof(AudioClip), false);
+
+        //through errors on invalid videos
+        if (bgMusic != null)
+        {
+            string path = AssetDatabase.GetAssetPath(bgMusic);
+            if (!(path.EndsWith(".mp3", System.StringComparison.OrdinalIgnoreCase)||
+                path.EndsWith(".wav", System.StringComparison.OrdinalIgnoreCase)||
+                path.EndsWith(".aiff", System.StringComparison.OrdinalIgnoreCase)||
+                path.EndsWith(".ogg", System.StringComparison.OrdinalIgnoreCase)||
+                path.EndsWith(".flac", System.StringComparison.OrdinalIgnoreCase)))
+            {
+                errorMessage = "Error: Only mp3,wav,aiff,ogg,flac audios are supported.";
+                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+            }
+        }
         GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
         EditorGUILayout.EndVertical();
         GUILayout.Space(5);
@@ -233,7 +248,7 @@ public class MyEditorWindow : EditorWindow
                 GUILayout.Space(20);
                 GUILayout.Label("Type:", GUILayout.Width(60));
                 hotspotData.type = (HotspotType)EditorGUILayout.EnumPopup(hotspotData.type, GUILayout.Width(80));
-                
+
                 //GUILayout.Label("Asset:", GUILayout.Width(50));
                 switch (hotspotData.type)
                 {
@@ -252,32 +267,32 @@ public class MyEditorWindow : EditorWindow
                         //GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
                         //EditorGUILayout.EndHorizontal();
                         //EditorGUILayout.EndVertical();
-                      
+
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
-                        
+
                         GUILayout.Label("Picture description:", GUILayout.Width(110));
 
-                        
-                       // EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                       
-                       // EditorGUILayout.EndVertical();
+
+                        // EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+                        // EditorGUILayout.EndVertical();
                         //hotspotData.imageText = EditorGUILayout.TextArea(hotspotData.imageText, GUILayout.Height(30)); // Adjust the height as needed
                         hotspotData.imageText = EditorGUILayout.TextField(hotspotData.imageText, GUILayout.Height(20));
-                       
+
                         //new line added for testing
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
-                        
+
                         EditorGUILayout.EndHorizontal();
 
                         EditorGUILayout.BeginVertical();
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
                         EditorGUILayout.EndVertical();
-                       
+
                         break;
                     case HotspotType.Video:
                         GUILayout.Label("Asset:", GUILayout.Width(50));
@@ -289,10 +304,10 @@ public class MyEditorWindow : EditorWindow
                             sceneData.hotspots.RemoveAt(j);
                         }
 
-                       
+
                         //EditorGUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
-                        GUILayout.Label("[Video must be 16:9 ratio]", EditorStyles.boldLabel);
+                        GUILayout.Label("[Video must be 16:9 ratio and .mp4 format]", EditorStyles.boldLabel);
                         if (hotspotData.videoAsset != null)
                         {
                             string path = AssetDatabase.GetAssetPath(hotspotData.videoAsset);
@@ -307,9 +322,9 @@ public class MyEditorWindow : EditorWindow
                         EditorGUILayout.EndVertical();
                         break;
                     case HotspotType.Text:
-                        //GUILayout.Label("Asset:", GUILayout.Width(50));
+
                         EditorGUILayout.EndVertical();
-                       
+
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.Label("Text:", GUILayout.Width(50));
@@ -318,27 +333,31 @@ public class MyEditorWindow : EditorWindow
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
-                       
-                        
-                        
-                       
+
                         EditorGUILayout.EndHorizontal();
                         GUILayout.Label("[Max characters upto 800]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
 
-
-                       
                         break;
                     case HotspotType._3DModel:
                         GUILayout.Label("Asset:", GUILayout.Width(50));
                         hotspotData.assetModel = (GameObject)EditorGUILayout.ObjectField(hotspotData.assetModel, typeof(GameObject), false);
+                        //throw error on invalid data entry
+                        if (hotspotData.assetModel != null)
+                        {
+                            string path = AssetDatabase.GetAssetPath(hotspotData.assetModel);
+                            if (!(path.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase)  ||
+                                 path.EndsWith(".gltf", System.StringComparison.OrdinalIgnoreCase)  ||
+                                 path.EndsWith(".glb", System.StringComparison.OrdinalIgnoreCase)   ||
+                                 path.EndsWith(".obj", System.StringComparison.OrdinalIgnoreCase)   ||
+                                 path.EndsWith(".blend", System.StringComparison.OrdinalIgnoreCase)
+                                ))
+                            {
+                                errorMessage = "Error: Only FBX,glTF,OBJ and Blender type models are supported.";
+                                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                            }
+                        }
                         EditorGUILayout.EndVertical();
-
-                        //EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                        //EditorGUILayout.BeginHorizontal();
-                        //GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
-                        //EditorGUILayout.EndHorizontal();
-                        //EditorGUILayout.EndVertical();
 
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
