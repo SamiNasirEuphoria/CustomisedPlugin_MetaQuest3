@@ -27,7 +27,7 @@ public class SceneManager : MonoBehaviour
     {
         mainCanvasObject.SetActive(true);
     }
-    public GameObject mainCanvasObject;
+    public GameObject mainCanvasObject, HomeObject;
     public MediaPlayer myMediaPlayer, hotspotMediaPlayer;
     
     

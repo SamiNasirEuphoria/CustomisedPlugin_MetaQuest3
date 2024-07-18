@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using RenderHeads.Media.AVProVideo;
 
@@ -19,9 +20,15 @@ public class VideoPlayerManager : MonoBehaviour
         mainVideoPlayer.Player = videoPlayer;
         videoPlayer.OpenMedia(new MediaPath(videoName + ".mp4", MediaPathType.RelativeToStreamingAssetsFolder), autoPlay: true);
         SetInactive();
+        StartCoroutine(Wait());
         //this line of code is used to load videos from local storage of meta
         //videoPlayer.OpenMedia(new MediaPath("/sdcard/Movies/" + videoName + ".mp4", MediaPathType.AbsolutePathOrURL), autoPlay: true);
 
+    }
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1.0f);
+        hotspotSphere.SetActive(true);
     }
     public void InstantiateHotspotObjects()
     {

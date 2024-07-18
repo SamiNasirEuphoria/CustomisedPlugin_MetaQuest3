@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
 public class EnableDisable : MonoBehaviour
 {
     public GameObject videoSphere, mediaCanvesObject;
@@ -9,6 +10,14 @@ public class EnableDisable : MonoBehaviour
     //methods have been updated
     //this code will convert hotspot buttons
     //into pink color and vise versa
+    public void EnableMe()
+    {
+        this.enabled = true;
+    }
+    private void Awake()
+    {
+        HomeManager.hotspotButton += EnableMe;
+    }
     private void OnEnable()
     {
         this.gameObject.SetActive(true);
@@ -23,6 +32,7 @@ public class EnableDisable : MonoBehaviour
         {
             g.SetActive(true);
         }
+       
     }
     private void OnDisable()
     {
@@ -38,5 +48,12 @@ public class EnableDisable : MonoBehaviour
         {
             g.SetActive(false);
         }
+       
+    }
+    private void OnDestroy()
+    {
+        Debug.Log("Memory freed up");
+        HomeManager.hotspotButton -= EnableMe;
     }
 }
+#endif

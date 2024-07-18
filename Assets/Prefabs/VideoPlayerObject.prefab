@@ -954,7 +954,7 @@ GameObject:
   - component: {fileID: 2125635984445253626}
   - component: {fileID: 1757119134206725324}
   m_Layer: 0
-  m_Name: HotspotSphere
+  m_Name: HotspotSphere(Enable/Disable)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2108,6 +2108,7 @@ MonoBehaviour:
   manager: {fileID: 8091152463174012382}
   toggleButton: {fileID: 8418075581440572315}
   videoPlayerManager: {fileID: 7182916800084196186}
+  enableDisable: {fileID: 1757119134206725324}
 --- !u!1 &7182916800260614176
 GameObject:
   m_ObjectHideFlags: 0

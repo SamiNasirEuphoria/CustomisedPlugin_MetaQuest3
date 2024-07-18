@@ -12,6 +12,7 @@ public class VideoSliderManager : MonoBehaviour
 	public ExperienceManager manager;
 	public ToggleButton toggleButton;
 	public VideoPlayerManager videoPlayerManager;
+	public EnableDisable enableDisable;
 	private void Start()
     {
 		CreateTimelineDragEvents();
@@ -51,6 +52,9 @@ public class VideoSliderManager : MonoBehaviour
 				//here we will call the buttons to appear on the screen instead of go back
 				//hide the multimedia panel and show continue button next 
 				//manager.Exit();
+#if UNITY_EDITOR
+				enableDisable.enabled = false;
+#endif
 				videoPlayerManager.SetActive();
 				check = false;
 			}
