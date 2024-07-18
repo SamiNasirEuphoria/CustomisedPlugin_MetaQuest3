@@ -56,6 +56,7 @@ public class MyEditorWindow : EditorWindow
     private List<SceneData> sceneDataList = new List<SceneData>();
     private Vector2 scrollPosition;
     GameObject contentObject;
+    private bool hasErrors; 
     //new method to apply texture to 360 imagew
 
     [MenuItem("VR Plugin/Open My Editor Window")]
@@ -187,9 +188,36 @@ public class MyEditorWindow : EditorWindow
             SceneData sceneData = sceneDataList[i];
            
             sceneData.tagline = EditorGUILayout.TextField("Video Label:", sceneData.tagline);
-            GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel); 
+            GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
+            if (sceneData.tagline != null)
+            {
+                if (sceneData.tagline.Length> 25)
+                {
+                    errorMessage = "Only 25 characters are allowed.";
+                    EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                    hasErrors = true;
+                }
+                else
+                {
+                    hasErrors = false;
+                }
+            }
+            //sceneData.tagline = sceneData.tagline.Substring(0,25);
             sceneData.description = EditorGUILayout.TextField("Video Description:", sceneData.description);
             GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
+            if (sceneData.description != null)
+            {
+                if (sceneData.description.Length > 25)
+                {
+                    errorMessage = "Only 40 characters are allowed.";
+                    EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                    hasErrors = true;
+                }
+                else
+                {
+                    hasErrors = false;
+                }
+            }
             GUILayout.Space(5);
             sceneData.video = (VideoClip)EditorGUILayout.ObjectField("360 Video:", sceneData.video, typeof(VideoClip), false);
             //through errors on invalid videos
@@ -200,6 +228,11 @@ public class MyEditorWindow : EditorWindow
                 {
                     errorMessage = "Error: Only .mp4 360 videos are supported.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                    hasErrors = true;
+                }
+                else
+                {
+                    hasErrors = false;
                 }
             }
            
@@ -244,6 +277,21 @@ public class MyEditorWindow : EditorWindow
                
                 hotspotData.hotspotName = EditorGUILayout.TextField("Hotspot Label:", hotspotData.hotspotName);
                 GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
+                if (hotspotData.hotspotName != null)
+                {
+                    if (hotspotData.hotspotName.Length > 25)
+                    {
+                        errorMessage = "Only 25 characters are allowed.";
+                        EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                        hasErrors = true;
+                    }
+                    else
+                    {
+                        hasErrors = false;
+                    }
+                }
+
+
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Space(20);
                 GUILayout.Label("Type:", GUILayout.Width(60));
@@ -406,8 +454,14 @@ public class MyEditorWindow : EditorWindow
         EditorGUILayout.EndVertical();
         if (GUILayout.Button("Apply"))
         {
-            //ApplyTexture(textureApplier);
-            ApplySettings();
+            if (hasErrors)
+            {
+                EditorUtility.DisplayDialog("Error", "Remove all errors first.", "OK");
+            }
+            else
+            {
+                ApplySettings();
+            }
         }
         
         EditorGUILayout.EndScrollView();
