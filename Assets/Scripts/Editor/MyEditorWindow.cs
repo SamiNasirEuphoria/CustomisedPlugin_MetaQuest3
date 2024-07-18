@@ -25,11 +25,11 @@ public class HotspotData
     public HotspotType type;
     public string hotspotName;
     public Texture2D imageAsset;
-    public string imageText;
+    public string imageDescription;
     public VideoClip videoAsset;
     public string textAsset;
     public GameObject assetModel;
-    public string modelText;
+    public string modelDescription;
 }
 
 // Enum for hotspot types
@@ -128,6 +128,11 @@ public class MyEditorWindow : EditorWindow
             {
                 errorMessage = "Error: Only mp3,wav,aiff,ogg,flac audios are supported.";
                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                hasErrors = true;
+            }
+            else
+            {
+                hasErrors = false;
             }
         }
         GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
@@ -136,11 +141,11 @@ public class MyEditorWindow : EditorWindow
        
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("Scene Settings", EditorStyles.boldLabel);
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Scene Settings", EditorStyles.boldLabel);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        GUILayout.Space(5);
        
         
         numberOfScenes = EditorGUILayout.IntField("Number of Scenes:", numberOfScenes);
@@ -188,10 +193,9 @@ public class MyEditorWindow : EditorWindow
             SceneData sceneData = sceneDataList[i];
            
             sceneData.tagline = EditorGUILayout.TextField("Video Label:", sceneData.tagline);
-            GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
             if (sceneData.tagline != null)
             {
-                if (sceneData.tagline.Length> 25)
+                if (sceneData.tagline.Length > 25)
                 {
                     errorMessage = "Only 25 characters are allowed.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
@@ -202,12 +206,13 @@ public class MyEditorWindow : EditorWindow
                     hasErrors = false;
                 }
             }
+            GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
+            
             //sceneData.tagline = sceneData.tagline.Substring(0,25);
             sceneData.description = EditorGUILayout.TextField("Video Description:", sceneData.description);
-            GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
             if (sceneData.description != null)
             {
-                if (sceneData.description.Length > 25)
+                if (sceneData.description.Length > 40)
                 {
                     errorMessage = "Only 40 characters are allowed.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
@@ -218,6 +223,8 @@ public class MyEditorWindow : EditorWindow
                     hasErrors = false;
                 }
             }
+            GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
+            
             GUILayout.Space(5);
             sceneData.video = (VideoClip)EditorGUILayout.ObjectField("360 Video:", sceneData.video, typeof(VideoClip), false);
             //through errors on invalid videos
@@ -246,10 +253,7 @@ public class MyEditorWindow : EditorWindow
             GUILayout.EndHorizontal();
             EditorGUILayout.LabelField("[Thumbnail Image must be 16:9 ratio]", EditorStyles.boldLabel);
             GUILayout.EndVertical();    
-            //sceneData.thumbnail = (Texture2D)EditorGUILayout.ObjectField("Thumbnail Image:\n[Thumbnail Image must be 16:9 ratio] \n", sceneData.thumbnail, typeof(Texture2D), false);
-            //GUILayout.Label("[Thumbnail Image must be 16:9 ratio]", EditorStyles.boldLabel);
-            //store the video names here
-            //string name = sceneData.video.name;
+            
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
             GUILayout.Space(5);
@@ -276,7 +280,6 @@ public class MyEditorWindow : EditorWindow
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                
                 hotspotData.hotspotName = EditorGUILayout.TextField("Hotspot Label:", hotspotData.hotspotName);
-                GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
                 if (hotspotData.hotspotName != null)
                 {
                     if (hotspotData.hotspotName.Length > 25)
@@ -290,8 +293,8 @@ public class MyEditorWindow : EditorWindow
                         hasErrors = false;
                     }
                 }
-
-
+                GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
+                
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.Space(20);
                 GUILayout.Label("Type:", GUILayout.Width(60));
@@ -307,27 +310,15 @@ public class MyEditorWindow : EditorWindow
                         hotspotData.imageAsset = (Texture2D)EditorGUILayout.ObjectField(hotspotData.imageAsset, typeof(Texture2D), false);
                         EditorGUILayout.EndVertical();
                         GUILayout.Label("[Picture must be 16:9 ratio]", EditorStyles.boldLabel);
-
                         EditorGUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
-                        //EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                        //EditorGUILayout.BeginHorizontal();
-                        //GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
-                        //EditorGUILayout.EndHorizontal();
-                        //EditorGUILayout.EndVertical();
-
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
 
                         GUILayout.Label("Picture description:", GUILayout.Width(110));
-
-
-                        // EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
-                        // EditorGUILayout.EndVertical();
-                        //hotspotData.imageText = EditorGUILayout.TextArea(hotspotData.imageText, GUILayout.Height(30)); // Adjust the height as needed
-                        hotspotData.imageText = EditorGUILayout.TextField(hotspotData.imageText, GUILayout.Height(20));
-
+                        // Adjust the height as needed
+                        hotspotData.imageDescription = EditorGUILayout.TextField(hotspotData.imageDescription, GUILayout.Height(20));
+                        
                         //new line added for testing
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
@@ -337,6 +328,19 @@ public class MyEditorWindow : EditorWindow
                         EditorGUILayout.EndHorizontal();
 
                         EditorGUILayout.BeginVertical();
+                        if (hotspotData.imageDescription != null)
+                        {
+                            if (hotspotData.imageDescription.Length > 300)
+                            {
+                                errorMessage = "Only 300 characters are allowed.";
+                                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                                hasErrors = true;
+                            }
+                            else
+                            {
+                                hasErrors = false;
+                            }
+                        }
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
                         EditorGUILayout.EndVertical();
@@ -352,8 +356,6 @@ public class MyEditorWindow : EditorWindow
                             sceneData.hotspots.RemoveAt(j);
                         }
 
-
-                        //EditorGUILayout.EndHorizontal();
                         EditorGUILayout.EndVertical();
                         GUILayout.Label("[Video must be 16:9 ratio and .mp4 format]", EditorStyles.boldLabel);
                         if (hotspotData.videoAsset != null)
@@ -363,6 +365,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Error: Only .mp4 videos are supported.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                                hasErrors = true;
+                            }
+                            else
+                            {
+                                hasErrors = false;
                             }
                         }
 
@@ -377,12 +384,26 @@ public class MyEditorWindow : EditorWindow
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.Label("Text:", GUILayout.Width(50));
                         hotspotData.textAsset = EditorGUILayout.TextField(hotspotData.textAsset);
+                        
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
 
                         EditorGUILayout.EndHorizontal();
+                        if (hotspotData.textAsset != null)
+                        {
+                            if (hotspotData.textAsset.Length > 800)
+                            {
+                                errorMessage = "Only 800 characters are allowed.";
+                                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                                hasErrors = true;
+                            }
+                            else
+                            {
+                                hasErrors = false;
+                            }
+                        }
                         GUILayout.Label("[Max characters upto 800]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
 
@@ -403,6 +424,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Error: Only FBX,glTF,OBJ and Blender type models are supported.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                                hasErrors = true;
+                            }
+                            else
+                            {
+                                hasErrors = false;
                             }
                         }
                         EditorGUILayout.EndVertical();
@@ -410,35 +436,36 @@ public class MyEditorWindow : EditorWindow
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.Label("Model description:", GUILayout.Width(110));
-                        hotspotData.modelText = EditorGUILayout.TextField(hotspotData.modelText, GUILayout.Height(20)); // Adjust the height as needed
-
+                        hotspotData.modelDescription = EditorGUILayout.TextField(hotspotData.modelDescription, GUILayout.Height(20)); // Adjust the height as needed
+                        
                         //new line added for testing
                         if (GUILayout.Button("-", GUILayout.Width(20)))
                         {
                             sceneData.hotspots.RemoveAt(j);
                         }
-                      
-
                         EditorGUILayout.EndHorizontal();
-
-
                         EditorGUILayout.BeginVertical();
-                      
+                        if (hotspotData.modelDescription != null)
+                        {
+                            if (hotspotData.modelDescription.Length > 300)
+                            {
+                                errorMessage = "Only 300 characters are allowed.";
+                                EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                                hasErrors = true;
+                            }
+                            else
+                            {
+                                hasErrors = false;
+                            }
+                        }
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
-                       
                         EditorGUILayout.EndVertical();
                         EditorGUILayout.EndVertical();
                         
                         break;
                 }
-                // to deal with remove button for each scene seprately
-                //if (GUILayout.Button("-", GUILayout.Width(20)))
-                //{
-                //    sceneData.hotspots.RemoveAt(j);
-                //}
 
                 EditorGUILayout.EndHorizontal();
-                //EditorGUILayout.EndVertical();
             }
             if (GUILayout.Button("Add Hotspot"))
             {
@@ -577,14 +604,14 @@ public class MyEditorWindow : EditorWindow
                         break;
                     case HotspotType.Picture:
                         obj.hotspotSprite = sceneDataList[i].hotspots[k].imageAsset;
-                        obj.imageDescription.text = sceneDataList[i].hotspots[k].imageText;
+                        obj.imageDescription.text = sceneDataList[i].hotspots[k].imageDescription;
                         break;
                     case HotspotType.Video:
                         obj.hotspotVideoName = sceneDataList[i].hotspots[k].videoAsset.name;
                         break;
                     case HotspotType._3DModel:
                         obj.assetModel = sceneDataList[i].hotspots[k].assetModel;
-                        obj.modelDescription.text = sceneDataList[i].hotspots[k].modelText;
+                        obj.modelDescription.text = sceneDataList[i].hotspots[k].modelDescription;
                         break;
                 }
                 videoObjectData.InstantiateHotspotObjects();

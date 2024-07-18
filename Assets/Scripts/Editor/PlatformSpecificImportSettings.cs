@@ -35,21 +35,21 @@ public class PlatformSpecificImportSettings : AssetPostprocessor
     {
         TextureImporter textureImporter = assetImporter as TextureImporter;
 
-        if (assetPath.StartsWith("Assets/0.Textures&Images"))
-        {
-            // Adjust import settings for Android textures
-            textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
-            textureImporter.maxTextureSize = 512;
-            textureImporter.textureType = TextureImporterType.Sprite;
-            textureImporter.mipmapEnabled = true;
-            textureImporter.filterMode = FilterMode.Bilinear;
+        //if (assetPath.StartsWith("Assets/0.Textures&Images"))
+        //{
+        //    // Adjust import settings for Android textures
+        //    textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
+        //    textureImporter.maxTextureSize = 512;
+        //    textureImporter.textureType = TextureImporterType.Sprite;
+        //    textureImporter.mipmapEnabled = true;
+        //    textureImporter.filterMode = FilterMode.Bilinear;
 
-            TextureImporterPlatformSettings androidSettings = textureImporter.GetPlatformTextureSettings("Android");
-            androidSettings.maxTextureSize = 512;
-            androidSettings.format = TextureImporterFormat.ETC2_RGBA8Crunched;
-            androidSettings.overridden = true;
-            textureImporter.SetPlatformTextureSettings(androidSettings);
-        }
+        //    TextureImporterPlatformSettings androidSettings = textureImporter.GetPlatformTextureSettings("Android");
+        //    androidSettings.maxTextureSize = 512;
+        //    androidSettings.format = TextureImporterFormat.ETC2_RGBA8Crunched;
+        //    androidSettings.overridden = true;
+        //    textureImporter.SetPlatformTextureSettings(androidSettings);
+        //}
         // Check current build target
         //if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
         //{

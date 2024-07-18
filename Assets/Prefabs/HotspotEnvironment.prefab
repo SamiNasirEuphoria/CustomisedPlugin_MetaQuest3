@@ -200,7 +200,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 1
 --- !u!1 &1787140067658186556
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,17 +226,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787140067658186556}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0031738281}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0032214844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 641453029685133129}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2551.5708, y: 1051.4285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7099183152019523013
 CanvasRenderer:
@@ -276,7 +275,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -294,8 +293,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 135
-  m_fontSizeBase: 135
+  m_fontSize: 130
+  m_fontSizeBase: 130
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -362,17 +361,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2354612898262474188}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0031738281}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0032214844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2466051318377526254}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2551.5708, y: 2491.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7809938415318621025
 CanvasRenderer:
@@ -411,7 +410,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -429,8 +428,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 135
-  m_fontSizeBase: 135
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1041,7 +1040,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2775117217183528482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2227}
+  m_LocalPosition: {x: 0, y: 420, z: 2227}
   m_LocalScale: {x: 1533.5653, y: 1533.5653, z: 1533.5653}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1246,7 +1245,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 1
 --- !u!1 &3332496509718478448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,7 +1381,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 1
 --- !u!1 &3492535561816084691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,10 +1414,10 @@ RectTransform:
   m_Father: {fileID: 2753929753352721268}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2551.5708, y: 1304.7429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2959455879374103944
 CanvasRenderer:
@@ -1735,7 +1732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -925}
+  m_AnchoredPosition: {x: 0, y: -713}
   m_SizeDelta: {x: 2551.5708, y: 1051.4285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2284379903079435615
@@ -1900,7 +1897,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 1
 --- !u!1 &5264577877494083959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,7 +2046,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 0
 --- !u!1 &5409361894395331814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,7 +2300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 0
 --- !u!1 &6830880522855501910
 GameObject:
   m_ObjectHideFlags: 0
@@ -2339,10 +2333,10 @@ RectTransform:
   m_Father: {fileID: 8642648830304697583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2551.5708, y: 1051.4285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8355081510356464917
 CanvasRenderer:
@@ -2381,7 +2375,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2399,8 +2393,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 135
-  m_fontSizeBase: 135
+  m_fontSize: 130
+  m_fontSizeBase: 130
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2590,7 +2584,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayPause: 0
   mainScreenButton: 0
-  closeButton: 0
 --- !u!1 &7053926249215134109
 GameObject:
   m_ObjectHideFlags: 0
