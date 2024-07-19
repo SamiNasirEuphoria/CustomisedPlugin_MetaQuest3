@@ -127,10 +127,11 @@ public class HotspotVideoPlayerManager : MonoBehaviour
                 Debug.Log("You did it");
                 positionReference.SetActive(true);
                 GameObject sample = Instantiate(assetModel);
-                sample.transform.position = modelReference.transform.position;
+              
                 //GameObject sample = Instantiate(assetModel);
                 ResizeModelToReference(sample, modelReference.transform.localScale);
                 CenterAndPivotAtPoint(sample, positionReference.transform.position);
+                sample.transform.position = modelReference.transform.position;
                 sample.AddComponent<Rotation>();
                 sample.transform.SetParent(positionReference.transform);
                 

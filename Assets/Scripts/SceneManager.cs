@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 using RenderHeads.Media.AVProVideo;
 public class SceneManager : MonoBehaviour
@@ -28,7 +27,5 @@ public class SceneManager : MonoBehaviour
         mainCanvasObject.SetActive(true);
     }
     public GameObject mainCanvasObject, HomeObject;
-    public MediaPlayer myMediaPlayer, hotspotMediaPlayer;
-    
-    
+    public MediaPlayer myMediaPlayer, hotspotMediaPlayer; 
 }

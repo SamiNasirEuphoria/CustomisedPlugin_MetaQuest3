@@ -6,7 +6,7 @@ public class EnableDisable : MonoBehaviour
 {
     public GameObject videoSphere, mediaCanvesObject;
     public List<GameObject> hotspotButtons;
-
+    public static bool check;
     //methods have been updated
     //this code will convert hotspot buttons
     //into pink color and vise versa
@@ -16,6 +16,7 @@ public class EnableDisable : MonoBehaviour
     }
     private void Awake()
     {
+        check = true;
         HomeManager.hotspotButton += EnableMe;
     }
     private void OnEnable()
@@ -48,7 +49,6 @@ public class EnableDisable : MonoBehaviour
         {
             g.SetActive(false);
         }
-       
     }
     private void OnDestroy()
     {

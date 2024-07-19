@@ -20,14 +20,20 @@ public class VideoPlayerManager : MonoBehaviour
         mainVideoPlayer.Player = videoPlayer;
         videoPlayer.OpenMedia(new MediaPath(videoName + ".mp4", MediaPathType.RelativeToStreamingAssetsFolder), autoPlay: true);
         SetInactive();
-        StartCoroutine(Wait());
+#if UNITY_EDITOR
+        if (PlayerPrefsHandler.PlayHotspot == 1)
+        {
+            StartCoroutine(Wait());
+            PlayerPrefsHandler.PlayHotspot = 0;
+        }
+#endif
         //this line of code is used to load videos from local storage of meta
         //videoPlayer.OpenMedia(new MediaPath("/sdcard/Movies/" + videoName + ".mp4", MediaPathType.AbsolutePathOrURL), autoPlay: true);
 
     }
     IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.5f);
         hotspotSphere.SetActive(true);
     }
     public void InstantiateHotspotObjects()

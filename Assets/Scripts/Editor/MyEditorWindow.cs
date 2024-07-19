@@ -675,6 +675,7 @@ public class MyEditorWindow : EditorWindow
     private void ApplySettings()
     {
         PlayerSettings.applicationIdentifier = packageName;
+        PlayerPrefsHandler.PlayHotspot = 1;
         // Destroy existing VideoButton prefabs
         DestroyOldVideoButtons();
         if (icon != null)
