@@ -124,18 +124,17 @@ public class HotspotVideoPlayerManager : MonoBehaviour
                 myText.text = hotspotText;
                 break;
             case "_3DModel":
-                Debug.Log("You did it");
+
                 positionReference.SetActive(true);
                 GameObject sample = Instantiate(assetModel);
-              
-                //GameObject sample = Instantiate(assetModel);
                 ResizeModelToReference(sample, modelReference.transform.localScale);
-                CenterAndPivotAtPoint(sample, positionReference.transform.position);
-                sample.transform.position = modelReference.transform.position;
                 sample.AddComponent<Rotation>();
-                sample.transform.SetParent(positionReference.transform);
-                
+                sample =  CenterAndPivotAtPoint(sample, positionReference.transform.position);
+                sample.transform.localPosition = modelReference.transform.position;
+                sample.transform.localRotation = modelReference.transform.rotation;
+                sample.transform.SetParent(this.gameObject.transform);
                 break;
+                
         }
     }
     public Vector3 GetTotalBoundsSize(GameObject obj)
@@ -167,7 +166,6 @@ public class HotspotVideoPlayerManager : MonoBehaviour
                 hasBounds = true;
             }
         }
-
         foreach (SkinnedMeshRenderer skinnedRenderer in skinnedRenderers)
         {
             if (hasBounds)
@@ -180,7 +178,6 @@ public class HotspotVideoPlayerManager : MonoBehaviour
                 hasBounds = true;
             }
         }
-
         return combinedBounds.size;
     }
     public static GameObject CenterAndPivotAtPoint(GameObject targetObject, Vector3 pivotPoint)
@@ -246,7 +243,8 @@ public class HotspotVideoPlayerManager : MonoBehaviour
         targetObject.transform.SetParent(parent.transform);
 
         // Adjust the position of the original object to align the center with the pivot point
-        targetObject.transform.localPosition = new Vector3(-offset.x, -offset.y, offset.z);
+        targetObject.transform.localPosition = new Vector3(-offset.x, -offset.y, -offset.z);
+        //targetObject.transform.localPosition = -offset;
 
         return parent;
     }
