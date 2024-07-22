@@ -9,10 +9,11 @@ public class VideoPlayerManager : MonoBehaviour
     public string hotspotLabel;
     public MediaPlayer videoPlayer;
     public ApplyToMesh mainVideoPlayer;
-    public int count;
+    public int count, hotspotCount, sceneNumber;
     public string videoName;
     public List<GameObject> hotspotENV = new List<GameObject>();
     public List<GameObject> hotspotButtons;
+    public Texture imageBackground360;
     private void OnEnable()
     {
         ResetScene();
@@ -21,10 +22,13 @@ public class VideoPlayerManager : MonoBehaviour
         videoPlayer.OpenMedia(new MediaPath(videoName + ".mp4", MediaPathType.RelativeToStreamingAssetsFolder), autoPlay: true);
         SetInactive();
 #if UNITY_EDITOR
-        if (PlayerPrefsHandler.PlayHotspot == 1)
+        if (PlayerPrefsHandler.GetPlayHotspot(sceneNumber) == 1)
         {
-            StartCoroutine(Wait());
-            PlayerPrefsHandler.PlayHotspot = 0;
+            if (hotspotCount>0)
+            {
+                StartCoroutine(Wait());
+            }
+            PlayerPrefsHandler.SetPlayHotspot(sceneNumber, 0);
         }
 #endif
         //this line of code is used to load videos from local storage of meta
@@ -55,6 +59,15 @@ public class VideoPlayerManager : MonoBehaviour
         btn.myLabelText.text = hotspotLabel;
         btnObj.name = hotspotLabel + " 'Type: " + refObj.GetComponent<HotspotVideoPlayerManager>().hotspotType + "' Button";
         refObj.name = hotspotLabel +" 'Type: "+ refObj.GetComponent<HotspotVideoPlayerManager>().hotspotType+"' hotspot";
+        //assign the material to hotspot sphere
+
+
+        // Create a new material
+        Material newMaterial = new Material(Shader.Find("Standard"));
+        // Assign the texture to the material
+        newMaterial.mainTexture = imageBackground360;
+        // Apply the material to the GameObject's renderer
+        hotspotSphere.GetComponent<MeshRenderer>().material = newMaterial;
     }
     public void SetActive()
     {

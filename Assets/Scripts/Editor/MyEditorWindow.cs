@@ -130,10 +130,6 @@ public class MyEditorWindow : EditorWindow
                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                 hasErrors = true;
             }
-            else
-            {
-                hasErrors = false;
-            }
         }
         GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
         EditorGUILayout.EndVertical();
@@ -201,10 +197,6 @@ public class MyEditorWindow : EditorWindow
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                     hasErrors = true;
                 }
-                else
-                {
-                    hasErrors = false;
-                }
             }
             GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
             
@@ -217,10 +209,6 @@ public class MyEditorWindow : EditorWindow
                     errorMessage = "Only 40 characters are allowed.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                     hasErrors = true;
-                }
-                else
-                {
-                    hasErrors = false;
                 }
             }
             GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
@@ -236,10 +224,6 @@ public class MyEditorWindow : EditorWindow
                     errorMessage = "Error: Only .mp4 360 videos are supported.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                     hasErrors = true;
-                }
-                else
-                {
-                    hasErrors = false;
                 }
             }
            
@@ -288,10 +272,6 @@ public class MyEditorWindow : EditorWindow
                         EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                         hasErrors = true;
                     }
-                    else
-                    {
-                        hasErrors = false;
-                    }
                 }
                 GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
                 
@@ -336,10 +316,6 @@ public class MyEditorWindow : EditorWindow
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                                 hasErrors = true;
                             }
-                            else
-                            {
-                                hasErrors = false;
-                            }
                         }
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
@@ -366,10 +342,6 @@ public class MyEditorWindow : EditorWindow
                                 errorMessage = "Error: Only .mp4 videos are supported.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                                 hasErrors = true;
-                            }
-                            else
-                            {
-                                hasErrors = false;
                             }
                         }
 
@@ -399,10 +371,6 @@ public class MyEditorWindow : EditorWindow
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                                 hasErrors = true;
                             }
-                            else
-                            {
-                                hasErrors = false;
-                            }
                         }
                         GUILayout.Label("[Max characters upto 800]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
@@ -425,10 +393,6 @@ public class MyEditorWindow : EditorWindow
                                 errorMessage = "Error: Only FBX,glTF,OBJ and Blender type models are supported.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                                 hasErrors = true;
-                            }
-                            else
-                            {
-                                hasErrors = false;
                             }
                         }
                         EditorGUILayout.EndVertical();
@@ -453,10 +417,6 @@ public class MyEditorWindow : EditorWindow
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                                 hasErrors = true;
                             }
-                            else
-                            {
-                                hasErrors = false;
-                            }
                         }
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
                         EditorGUILayout.EndVertical();
@@ -477,18 +437,20 @@ public class MyEditorWindow : EditorWindow
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndVertical();
         }
-       
+        
         EditorGUILayout.EndVertical();
+
+
         if (GUILayout.Button("Apply"))
         {
-            if (hasErrors)
-            {
-                EditorUtility.DisplayDialog("Error", "Remove all errors first.", "OK");
-            }
-            else
-            {
+            //if (hasErrors)
+            //{
+            //    EditorUtility.DisplayDialog("Error", "Remove all errors first.", "OK");
+            //}
+            //else
+            //{
                 ApplySettings();
-            }
+            //}
         }
         
         EditorGUILayout.EndScrollView();
@@ -557,14 +519,17 @@ public class MyEditorWindow : EditorWindow
             myButton.buttonImage.sprite = sprite;
 
             VideoPlayerManager videoObjectData = videoObject.GetComponent<VideoPlayerManager>();
-           
+            videoObjectData.sceneNumber = i;
             myButton.myLabelText.text = sceneDataList[i].tagline;
             myButton.myDescriptionText.text = sceneDataList[i].description;
             // now project shifted from passing data into buttons to gameobjects video
             videoObjectData.videoName = sceneDataList[i].video.name;
-            Material hotspotMaterial = videoObjectData.hotspotSphere.GetComponent<MeshRenderer>().sharedMaterial;
 
-            hotspotMaterial.mainTexture = sceneDataList[i].lastFrame360Image;
+            //changing material approach
+            videoObjectData.imageBackground360 = sceneDataList[i].lastFrame360Image;
+            //Material hotspotMaterial = videoObjectData.hotspotSphere.GetComponent<MeshRenderer>().sharedMaterial;
+
+            //hotspotMaterial.mainTexture = sceneDataList[i].lastFrame360Image;
              HotspotVideoPlayerManager obj = videoObjectData.hotspotObjectPrefab.GetComponent<HotspotVideoPlayerManager>();
             obj.videoName = sceneDataList[i].video.name;
             obj.sceneTagline = sceneDataList[i].tagline;
@@ -578,9 +543,8 @@ public class MyEditorWindow : EditorWindow
             }
             
             obj.hotspotLenght = sceneDataList[i].hotspots.Count;
-            
-
             videoObjectData.count = 0;
+            videoObjectData.hotspotCount = sceneDataList[i].hotspots.Count;
             for (int k = 0; k < sceneDataList[i].hotspots.Count; k++)
             {
                 HotspotData hotspotData = sceneDataList[i].hotspots[k];
@@ -675,7 +639,10 @@ public class MyEditorWindow : EditorWindow
     private void ApplySettings()
     {
         PlayerSettings.applicationIdentifier = packageName;
-        PlayerPrefsHandler.PlayHotspot = 1;
+        for (int i=0; i< numberOfScenes; i++)
+        {
+           PlayerPrefsHandler.SetPlayHotspot(i,1);
+        }
         // Destroy existing VideoButton prefabs
         DestroyOldVideoButtons();
         if (icon != null)
