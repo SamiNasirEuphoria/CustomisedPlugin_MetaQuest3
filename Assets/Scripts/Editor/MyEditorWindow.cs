@@ -56,7 +56,7 @@ public class MyEditorWindow : EditorWindow
     private List<SceneData> sceneDataList = new List<SceneData>();
     private Vector2 scrollPosition;
     GameObject contentObject;
-    private bool hasErrors; 
+    private List<bool> hasErrors= new List<bool>(); 
     //new method to apply texture to 360 imagew
 
     [MenuItem("VR Plugin/Open My Editor Window")]
@@ -67,6 +67,7 @@ public class MyEditorWindow : EditorWindow
     }
     private void OnGUI()
     {
+        hasErrors.Clear();
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
        
@@ -128,7 +129,11 @@ public class MyEditorWindow : EditorWindow
             {
                 errorMessage = "Error: Only mp3,wav,aiff,ogg,flac audios are supported.";
                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                hasErrors = true;
+                hasErrors.Add(true);
+            }
+            else
+            {
+                hasErrors.Add(false);
             }
         }
         GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
@@ -195,7 +200,11 @@ public class MyEditorWindow : EditorWindow
                 {
                     errorMessage = "Only 25 characters are allowed.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                    hasErrors = true;
+                    hasErrors.Add(true);
+                }
+                else
+                {
+                    hasErrors.Add(false);
                 }
             }
             GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
@@ -208,7 +217,11 @@ public class MyEditorWindow : EditorWindow
                 {
                     errorMessage = "Only 40 characters are allowed.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                    hasErrors = true;
+                    hasErrors.Add(true);
+                }
+                else
+                {
+                    hasErrors.Add(false);
                 }
             }
             GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
@@ -223,7 +236,11 @@ public class MyEditorWindow : EditorWindow
                 {
                     errorMessage = "Error: Only .mp4 360 videos are supported.";
                     EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                    hasErrors = true;
+                    hasErrors.Add(true);
+                }
+                else
+                {
+                    hasErrors.Add(false);
                 }
             }
            
@@ -270,7 +287,11 @@ public class MyEditorWindow : EditorWindow
                     {
                         errorMessage = "Only 25 characters are allowed.";
                         EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                        hasErrors = true;
+                        hasErrors.Add(true);
+                    }
+                    else
+                    {
+                        hasErrors.Add(false);
                     }
                 }
                 GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
@@ -314,7 +335,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Only 300 characters are allowed.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                                hasErrors = true;
+                                hasErrors.Add(true);
+                            }
+                            else
+                            {
+                                hasErrors.Add(false);
                             }
                         }
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
@@ -341,7 +366,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Error: Only .mp4 videos are supported.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                                hasErrors = true;
+                                hasErrors.Add(true);
+                            }
+                            else
+                            {
+                                hasErrors.Add(false);
                             }
                         }
 
@@ -369,7 +398,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Only 800 characters are allowed.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                                hasErrors = true;
+                                hasErrors.Add(true);
+                            }
+                            else
+                            {
+                                hasErrors.Add(false);
                             }
                         }
                         GUILayout.Label("[Max characters upto 800]", EditorStyles.boldLabel);
@@ -392,7 +425,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Error: Only FBX,glTF,OBJ and Blender type models are supported.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                                hasErrors = true;
+                                hasErrors.Add(true);
+                            }
+                            else
+                            {
+                                hasErrors.Add(false);
                             }
                         }
                         EditorGUILayout.EndVertical();
@@ -415,7 +452,11 @@ public class MyEditorWindow : EditorWindow
                             {
                                 errorMessage = "Only 300 characters are allowed.";
                                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
-                                hasErrors = true;
+                                hasErrors.Add(true);
+                            }
+                            else
+                            {
+                                hasErrors.Add(false);
                             }
                         }
                         GUILayout.Label("[Max characters upto 300]", EditorStyles.boldLabel);
@@ -443,16 +484,25 @@ public class MyEditorWindow : EditorWindow
 
         if (GUILayout.Button("Apply"))
         {
-            //if (hasErrors)
-            //{
-            //    EditorUtility.DisplayDialog("Error", "Remove all errors first.", "OK");
-            //}
-            //else
-            //{
+            bool alltrue = true;
+            
+            foreach (bool check in hasErrors)
+            {
+                if (check)
+                {
+                    alltrue = false;
+                    break;
+                }
+            }
+            if (alltrue)
+            {
                 ApplySettings();
-            //}
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("Error", "Remove all errors first.", "OK");
+            }
         }
-        
         EditorGUILayout.EndScrollView();
     }
 
