@@ -24,13 +24,11 @@ public class HotspotButtonPositionManager : MonoBehaviour
     private void OnEnable()
     {
         filePath = Path.Combine(Application.persistentDataPath, "HotspotButtonTransforms.json");
-        Debug.Log("OnEnable is called");
         LoadTransform();
     }
 
     private void OnDisable()
     {
-        Debug.Log("OnDisable is called");
         SaveTransform();
     }
 

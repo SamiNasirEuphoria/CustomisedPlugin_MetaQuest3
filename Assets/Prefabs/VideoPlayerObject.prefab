@@ -2477,7 +2477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8efd9d8e0e34375847852b9acb5d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotspotButtonPrefab: {fileID: 1025238495793268408, guid: 2aab9a899fda44ebf8a2a9aa7dcc80b4,
+  hotspotButtonPrefab: {fileID: 1871499767792018497, guid: 5095ef37a918e45278927977a5353f95,
     type: 3}
   hotspotButtonENV: {fileID: 3777356101423047463}
   hotspotObjectPrefab: {fileID: 2753929755126199352, guid: e92c64e78a5e146699b457684f6d51ba,
@@ -2491,9 +2491,12 @@ MonoBehaviour:
   videoPlayer: {fileID: 0}
   mainVideoPlayer: {fileID: 6020110031638875708}
   count: 0
+  hotspotCount: 0
+  sceneNumber: 0
   videoName: 
   hotspotENV: []
   hotspotButtons: []
+  imageBackground360: {fileID: 0}
 --- !u!114 &8418075581440572315
 MonoBehaviour:
   m_ObjectHideFlags: 0

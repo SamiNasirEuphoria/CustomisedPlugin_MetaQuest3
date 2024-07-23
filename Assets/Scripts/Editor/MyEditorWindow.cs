@@ -190,7 +190,6 @@ public class MyEditorWindow : EditorWindow
             EditorGUI.EndDisabledGroup();
             EditorGUILayout.EndHorizontal();
 
-
             SceneData sceneData = sceneDataList[i];
            
             sceneData.tagline = EditorGUILayout.TextField("Video Label:", sceneData.tagline);
@@ -478,12 +477,14 @@ public class MyEditorWindow : EditorWindow
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndVertical();
         }
-        
+        CheckForDuplicateTaglines();
+        CheckForDuplicateHotspotNames();
         EditorGUILayout.EndVertical();
 
-
+       
         if (GUILayout.Button("Apply"))
         {
+           
             bool alltrue = true;
             
             foreach (bool check in hasErrors)
@@ -504,9 +505,79 @@ public class MyEditorWindow : EditorWindow
             }
         }
         EditorGUILayout.EndScrollView();
-    }
 
-   private void ResizeSceneDataList()
+
+
+        //onGUI method is going to end here
+
+
+    }
+    private void CheckForDuplicateTaglines()
+    {
+        var taglines = new HashSet<string>();
+        bool hasDuplicate = false;
+
+        foreach (var scene in sceneDataList)
+        {
+            if (!string.IsNullOrEmpty(scene.tagline))
+            {
+                if (taglines.Contains(scene.tagline))
+                {
+                    errorMessage = $"Error: Duplicate tagline detected: {scene.tagline}";
+                    EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                    hasDuplicate = true;
+                }
+                else
+                {
+                    taglines.Add(scene.tagline);
+                }
+            }
+        }
+
+        if (hasDuplicate)
+        {
+            hasErrors.Add(true);
+        }
+        else
+        {
+            hasErrors.Add(false);
+        }
+    }
+    private void CheckForDuplicateHotspotNames()
+    {
+        var hotspotNames = new HashSet<string>();
+        bool hasDuplicate = false;
+
+        foreach (var scene in sceneDataList)
+        {
+            foreach (var hotspot in scene.hotspots)
+            {
+                if (!string.IsNullOrEmpty(hotspot.hotspotName))
+                {
+                    if (hotspotNames.Contains(hotspot.hotspotName))
+                    {
+                        errorMessage = $"Error: Duplicate hotspot name detected: {hotspot.hotspotName}";
+                        EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
+                        hasDuplicate = true;
+                    }
+                    else
+                    {
+                        hotspotNames.Add(hotspot.hotspotName);
+                    }
+                }
+            }
+        }
+
+        if (hasDuplicate)
+        {
+            hasErrors.Add(true);
+        }
+        else
+        {
+            hasErrors.Add(false);
+        }
+    }
+    private void ResizeSceneDataList()
    {
        if (sceneDataList.Count < numberOfScenes)
        {
