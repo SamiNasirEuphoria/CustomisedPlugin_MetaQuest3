@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-#if UNITY_EDITOR
 public class EnableDisable : MonoBehaviour
 {
     public GameObject videoSphere, mediaCanvesObject;
@@ -56,4 +55,3 @@ public class EnableDisable : MonoBehaviour
         HomeManager.hotspotButton -= EnableMe;
     }
 }
-#endif

@@ -52,12 +52,12 @@ public class VideoSliderManager : MonoBehaviour
                 //here we will call the buttons to appear on the screen instead of go back
                 //hide the multimedia panel and show continue button next 
                 //manager.Exit();
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
                 if (EnableDisable.check)
                 {
 					enableDisable.enabled = false;
 				}
-#endif
+//#endif
 				videoPlayerManager.SetActive();
 				check = false;
 			}

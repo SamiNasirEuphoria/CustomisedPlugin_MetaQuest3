@@ -1,0 +1,32 @@
+{
+    "transforms": [
+        {
+            "objectName": "3D Model  'Type: _3DModel' Button",
+            "position": {
+                "x": 1159.0,
+                "y": -79.0,
+                "z": 2050.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "objectName": "Picture 'Type: Picture' Button",
+            "position": {
+                "x": -80.0,
+                "y": -76.0,
+                "z": 2050.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        }
+    ]
+}
