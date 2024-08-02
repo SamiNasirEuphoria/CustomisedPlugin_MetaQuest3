@@ -56,10 +56,12 @@ public class MyEditorWindow : EditorWindow
     private string projectName = "";
     private string companyName = "";
     private string packageName = "";
+    private string hotspotVideoName = "";
     private string videoName = "";
     private string errorMessage;
     private Texture2D icon;
     private Texture2D homeImage;
+    private Texture2D homeScreenLogo;
     private AudioClip bgMusic;
     private Texture2D duplicatedTexture;
     private Cubemap cubemap;
@@ -83,15 +85,19 @@ public class MyEditorWindow : EditorWindow
         hasErrors.Clear();
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
-       
+
+        //EditorGUILayout.BeginHorizontal();
+        //EditorGUILayout.LabelField("Project (APK) Name", GUILayout.Width(EditorGUIUtility.labelWidth));
+        //buildName = EditorGUILayout.TextField(RemoveSpecialCharactersAndNumbers(buildName));
+        //EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Company Name", GUILayout.Width(EditorGUIUtility.labelWidth));
+        EditorGUILayout.LabelField("Institution Name", GUILayout.Width(EditorGUIUtility.labelWidth));
         companyName = EditorGUILayout.TextField(RemoveSpecialCharactersAndNumbers(companyName));
         EditorGUILayout.EndHorizontal();
         PlayerSettings.companyName = companyName;
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Project Name", GUILayout.Width(EditorGUIUtility.labelWidth));
+        EditorGUILayout.LabelField("Project (APK) Name", GUILayout.Width(EditorGUIUtility.labelWidth));
         projectName = EditorGUILayout.TextField(RemoveSpecialCharactersAndNumbers(projectName));
         EditorGUILayout.EndHorizontal();
         PlayerSettings.productName = projectName;
@@ -114,8 +120,8 @@ public class MyEditorWindow : EditorWindow
         EditorGUILayout.TextField(packageName);
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndHorizontal();
-        icon = (Texture2D)EditorGUILayout.ObjectField("Icon", icon, typeof(Texture2D), false);
-
+        icon = (Texture2D)EditorGUILayout.ObjectField("App Icon", icon, typeof(Texture2D), false);
+        GUILayout.Label("[(Aspect Ratio 1:1) - (Size: 1024 x 1024 pixels recomended) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
         GUILayout.Space(5);
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         GUILayout.BeginHorizontal();
@@ -126,7 +132,14 @@ public class MyEditorWindow : EditorWindow
         //EditorGUILayout.EndVertical();
         GUILayout.Space(5);
         homeImage = (Texture2D)EditorGUILayout.ObjectField("360 Image", homeImage, typeof(Texture2D), false);
-        //asset =
+        GUILayout.Label("[(Aspect Ratio 2:1) - (Size: 4096 x 2048 pixels min, 8192 x 4096 pixels max) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
+        GUILayout.Space(5);
+        homeScreenLogo = (Texture2D)EditorGUILayout.ObjectField("Home Screen Logo", homeScreenLogo, typeof(Texture2D), false);
+        GUILayout.Label("[(Format: .png with transparent background)]", EditorStyles.boldLabel);
+        GUILayout.Space(5);
+
+
+
         bgMusic = (AudioClip)EditorGUILayout.ObjectField("Background Music", bgMusic, typeof(AudioClip), false);
 
         //through errors on invalid videos
@@ -139,7 +152,7 @@ public class MyEditorWindow : EditorWindow
                 path.EndsWith(".ogg", System.StringComparison.OrdinalIgnoreCase)||
                 path.EndsWith(".flac", System.StringComparison.OrdinalIgnoreCase)))
             {
-                errorMessage = "Error: Only mp3,wav,aiff,ogg,flac audios are supported.";
+                errorMessage = "Error: Only .mp3, .wav audios are supported.";
                 EditorGUILayout.HelpBox(errorMessage, MessageType.Error);
                 hasErrors.Add(true);
             }
@@ -148,6 +161,8 @@ public class MyEditorWindow : EditorWindow
                 hasErrors.Add(false);
             }
         }
+        GUILayout.Label("[(Format: .mp3, .wav)]", EditorStyles.boldLabel);
+        GUILayout.Label("  Audio will loop automatically", EditorStyles.boldLabel);
         GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
         EditorGUILayout.EndVertical();
         GUILayout.Space(5);
@@ -211,7 +226,7 @@ public class MyEditorWindow : EditorWindow
 
             SceneData sceneData = sceneDataList[i];
            
-            sceneData.tagline = EditorGUILayout.TextField("Video Label:", sceneData.tagline);
+            sceneData.tagline = EditorGUILayout.TextField("Video Title:", sceneData.tagline);
             if (sceneData.tagline != null)
             {
                 if (sceneData.tagline.Length > 25)
@@ -226,7 +241,7 @@ public class MyEditorWindow : EditorWindow
                 }
             }
             GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
-            
+            GUILayout.Space(5);
             //sceneData.tagline = sceneData.tagline.Substring(0,25);
             sceneData.description = EditorGUILayout.TextField("Video Description:", sceneData.description);
             if (sceneData.description != null)
@@ -243,7 +258,7 @@ public class MyEditorWindow : EditorWindow
                 }
             }
             GUILayout.Label("[Max length is upto 40 characters]", EditorStyles.boldLabel);
-            
+            GUILayout.Label("*This field is optional", EditorStyles.boldLabel);
             GUILayout.Space(5);
             sceneData.video = (VideoClip)EditorGUILayout.ObjectField("360 Video:", sceneData.video, typeof(VideoClip), false);
             //through errors on invalid videos
@@ -261,7 +276,8 @@ public class MyEditorWindow : EditorWindow
                     hasErrors.Add(false);
                 }
             }
-           
+            GUILayout.Label("[(Aspect Ratio 2:1) - (Size: 4096 x 2048 pixels min) - (Format: .mp4)]", EditorStyles.boldLabel);
+            GUILayout.Space(5);
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Thumbnail Image:");
@@ -270,7 +286,7 @@ public class MyEditorWindow : EditorWindow
             sceneData.thumbnail = (Texture2D)EditorGUILayout.ObjectField("", sceneData.thumbnail, typeof(Texture2D), false);
            
             GUILayout.EndHorizontal();
-            EditorGUILayout.LabelField("[Thumbnail Image must be 16:9 ratio]", EditorStyles.boldLabel);
+            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 960 x 540 pixels min, 2560 x 1440 pixels max) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
             GUILayout.EndVertical();    
             
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -297,7 +313,7 @@ public class MyEditorWindow : EditorWindow
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Cancel Hotspot Group"))
+                if (GUILayout.Button("Delete Hotspot Group"))
                 {
                     sceneData.hotspotGroup.RemoveAt(k);
                 }
@@ -321,7 +337,10 @@ public class MyEditorWindow : EditorWindow
                 GUILayout.Label("[Max length is upto 25 characters]", EditorStyles.boldLabel);
                 hotspotGroup.timeStep = EditorGUILayout.DoubleField("Time Stamp", hotspotGroup.timeStep);
                 GUILayout.Label("[Please enter in the following format MM:SS]", EditorStyles.boldLabel);
-                hotspotGroup.lastFrame360Image = (Texture2D)EditorGUILayout.ObjectField("Last frame 360 Image", hotspotGroup.lastFrame360Image, typeof(Texture2D), false);
+                hotspotGroup.lastFrame360Image = (Texture2D)EditorGUILayout.ObjectField("Hotspot Alignment Image", hotspotGroup.lastFrame360Image, typeof(Texture2D), false);
+                GUILayout.Space(5);
+                GUILayout.Label("[(Image resolution must match final 360 video resolution (JPEG or PNG))]", EditorStyles.boldLabel);
+                GUILayout.Space(5);
                 //add  buttons here if you want to keep it at static position
 
                 for (int j = 0; j < hotspotGroup.hotspots.Count; j++)
@@ -360,7 +379,7 @@ public class MyEditorWindow : EditorWindow
                             EditorGUILayout.BeginHorizontal();
                             hotspotData.imageAsset = (Texture2D)EditorGUILayout.ObjectField(hotspotData.imageAsset, typeof(Texture2D), false);
                             EditorGUILayout.EndVertical();
-                            GUILayout.Label("[Picture must be 16:9 ratio]", EditorStyles.boldLabel);
+                            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 1920 x 1080 pixels recomended) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
                             EditorGUILayout.EndHorizontal();
                             EditorGUILayout.EndVertical();
                             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -408,7 +427,7 @@ public class MyEditorWindow : EditorWindow
                             }
 
                             EditorGUILayout.EndVertical();
-                            GUILayout.Label("[Video must be 16:9 ratio and .mp4 format]", EditorStyles.boldLabel);
+                            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 1920 x 1080 pixels recomended) - (Format: .mp4)]", EditorStyles.boldLabel);
                             if (hotspotData.videoAsset != null)
                             {
                                 string path = AssetDatabase.GetAssetPath(hotspotData.videoAsset);
@@ -426,6 +445,25 @@ public class MyEditorWindow : EditorWindow
 
                             EditorGUILayout.EndHorizontal();
                             EditorGUILayout.EndVertical();
+                            GUILayout.Space(5);
+                            EditorGUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Hotspot Video File Name", GUILayout.Width(EditorGUIUtility.labelWidth));
+
+                            if (string.IsNullOrEmpty(projectName))
+                            {
+                                hotspotVideoName = "Wyoming_Scene" + (i + 1) + "_HotspotNumber" + (j + 1) + ".mp4";
+                            }
+                            else
+                            {
+                                hotspotVideoName = projectName.Replace(" ", "") + "_Scene" + (i + 1) + "_HotspotNumber" + (j + 1) + ".mp4";
+                            }
+
+                            EditorGUI.BeginDisabledGroup(true);
+                            EditorGUILayout.TextField(hotspotVideoName);
+                            EditorGUI.EndDisabledGroup();
+                            EditorGUILayout.EndHorizontal();
+                            GUILayout.Space(5);
+
                             break;
                         case HotspotType.Text:
 
@@ -461,16 +499,21 @@ public class MyEditorWindow : EditorWindow
                             break;
                         case HotspotType._3DModel:
                             GUILayout.Label("Asset:", GUILayout.Width(50));
+
+                            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                            EditorGUILayout.BeginHorizontal();
+
+
                             hotspotData.assetModel = (GameObject)EditorGUILayout.ObjectField(hotspotData.assetModel, typeof(GameObject), false);
                             //throw error on invalid data entry
                             if (hotspotData.assetModel != null)
                             {
                                 string path = AssetDatabase.GetAssetPath(hotspotData.assetModel);
-                                if (!(path.EndsWith(".fbx", System.StringComparison.OrdinalIgnoreCase) ||
-                                     path.EndsWith(".gltf", System.StringComparison.OrdinalIgnoreCase) ||
-                                     path.EndsWith(".glb", System.StringComparison.OrdinalIgnoreCase) ||
-                                     path.EndsWith(".obj", System.StringComparison.OrdinalIgnoreCase) ||
-                                     path.EndsWith(".blend", System.StringComparison.OrdinalIgnoreCase)
+                                if (!(path.EndsWith(" .fbx  ", System.StringComparison.OrdinalIgnoreCase) ||
+                                     path.EndsWith(" .gltf  ", System.StringComparison.OrdinalIgnoreCase) ||
+                                     path.EndsWith(" .glb   " , System.StringComparison.OrdinalIgnoreCase) ||
+                                     path.EndsWith(" .obj   ", System.StringComparison.OrdinalIgnoreCase) ||
+                                     path.EndsWith(" .blend ", System.StringComparison.OrdinalIgnoreCase)
                                     ))
                                 {
                                     errorMessage = "Error: Only FBX,glTF,OBJ and Blender type models are supported.";
@@ -482,6 +525,11 @@ public class MyEditorWindow : EditorWindow
                                     hasErrors.Add(false);
                                 }
                             }
+                            
+                            EditorGUILayout.EndVertical();
+                            GUILayout.Label("[Model must be .fbx, .gltf, .glb, .obj, or .blend]", EditorStyles.boldLabel);
+
+                            EditorGUILayout.EndHorizontal();
                             EditorGUILayout.EndVertical();
 
                             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
