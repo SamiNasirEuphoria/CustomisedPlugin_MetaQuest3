@@ -85,7 +85,7 @@ public class MyEditorWindow : EditorWindow
         hasErrors.Clear();
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
-
+        //to add new field as project build name 
         //EditorGUILayout.BeginHorizontal();
         //EditorGUILayout.LabelField("Project (APK) Name", GUILayout.Width(EditorGUIUtility.labelWidth));
         //buildName = EditorGUILayout.TextField(RemoveSpecialCharactersAndNumbers(buildName));
@@ -121,7 +121,7 @@ public class MyEditorWindow : EditorWindow
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndHorizontal();
         icon = (Texture2D)EditorGUILayout.ObjectField("App Icon", icon, typeof(Texture2D), false);
-        GUILayout.Label("[(Aspect Ratio 1:1) - (Size: 1024 x 1024 pixels recomended) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
+        GUILayout.Label("[(Aspect Ratio 1:1) - (Size: 1024 x 1024 pixels recommended) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
         GUILayout.Space(5);
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         GUILayout.BeginHorizontal();
@@ -379,7 +379,7 @@ public class MyEditorWindow : EditorWindow
                             EditorGUILayout.BeginHorizontal();
                             hotspotData.imageAsset = (Texture2D)EditorGUILayout.ObjectField(hotspotData.imageAsset, typeof(Texture2D), false);
                             EditorGUILayout.EndVertical();
-                            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 1920 x 1080 pixels recomended) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
+                            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 1920 x 1080 pixels recommended) - (Format: .jpeg, .png)]", EditorStyles.boldLabel);
                             EditorGUILayout.EndHorizontal();
                             EditorGUILayout.EndVertical();
                             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -427,7 +427,7 @@ public class MyEditorWindow : EditorWindow
                             }
 
                             EditorGUILayout.EndVertical();
-                            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 1920 x 1080 pixels recomended) - (Format: .mp4)]", EditorStyles.boldLabel);
+                            GUILayout.Label("[(Aspect Ratio 16:9) - (Size: 1920 x 1080 pixels recommended) - (Format: .mp4)]", EditorStyles.boldLabel);
                             if (hotspotData.videoAsset != null)
                             {
                                 string path = AssetDatabase.GetAssetPath(hotspotData.videoAsset);
