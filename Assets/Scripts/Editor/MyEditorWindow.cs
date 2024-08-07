@@ -197,7 +197,7 @@ public class MyEditorWindow : EditorWindow
         for (int i = 0; i < numberOfScenes; i++)
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
+            
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -206,8 +206,19 @@ public class MyEditorWindow : EditorWindow
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
 
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical();
+            if (GUILayout.Button("Delete Scene"))
+            {
+                //implement functionality to delete scene 
+            }
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+
+
             //to place video file name automatically
             EditorGUILayout.BeginHorizontal();
+            
             EditorGUILayout.LabelField("360 Video File Name", GUILayout.Width(EditorGUIUtility.labelWidth));
 
             if (string.IsNullOrEmpty(projectName))
@@ -306,7 +317,7 @@ public class MyEditorWindow : EditorWindow
 
             //}
 
-            GUILayout.Label("[Maximum number of hotspot Groups allowed is 10]", EditorStyles.boldLabel);
+            GUILayout.Label("[Maximum number of hotspot groups allowed is 10]", EditorStyles.boldLabel);
             for (int k=0; k< sceneData.hotspotGroup.Count; k++)
             {
                 HotspotGroup hotspotGroup = sceneData.hotspotGroup[k];
